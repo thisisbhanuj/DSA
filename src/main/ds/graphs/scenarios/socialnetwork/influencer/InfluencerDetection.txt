@@ -1,0 +1,34 @@
+
+**Problem: Social Network Analysis - Influencer Detection**
+
+In today's world of social media, social networks play a significant role in connecting people and
+shaping opinions. One interesting problem is to identify influencers or key individuals who have a substantial impact on the network.
+
+Given a social network represented as a directed graph,
+where each node represents an individual and edges represent connections (e.g., friendships, follows);
+design an algorithm to detect the influencers in the network.
+
+**Steps:**
+1. Start by constructing the graph using the provided data (e.g., friendships, followers, etc.).
+2. Perform a traversal algorithm (e.g., Breadth-First Search or Depth-First Search) to explore the network.
+3. Assign a score to each node based on its influence, such as the number of followers, the number of interactions, or other relevant metrics.
+4. Identify the top k nodes with the highest influence scores as the influencers in the network.
+
+**Use Case:**
+This problem is highly relevant in the context of social media marketing and brand promotions.
+Identifying influencers can help businesses target their marketing efforts effectively by leveraging the reach and
+influence of these key individuals to promote their products or services.
+
+**Challenges:**
+The challenges in this problem lie in dealing with large-scale social networks,
+where the graph can be massive and constantly evolving.
+Efficient graph algorithms and data structures are required to handle such scenarios and process the data in real-time.
+
+Please note that while social network analysis and influencer detection are well-studied topics,
+the specific context and data provided in real-world scenarios can make the problem unique and challenging.
+The implementation can be further customized based on the available data and requirements.
+
+Keep in mind that the problem mentioned above is just one example of a unique graph-related problem relevant to today's world.
+There are various other applications of graph theory in diverse fields
+such as recommendation systems, transportation optimization, epidemiology and more.
+The unique challenges and use cases in these domains make them interesting and worthy of exploration.

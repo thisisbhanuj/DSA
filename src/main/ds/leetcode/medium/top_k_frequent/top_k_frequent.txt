@@ -1,0 +1,37 @@
+There are several approaches to solve the problem of finding the top k frequent elements in an array. 
+
+1. Hash Map with Sorting:
+    Create a frequency map using a hash map to count the occurrences of each element.
+    Then sort the elements based on their frequencies and return the top k elements.
+    This approach has a time complexity of O(n log n), where n is the number of elements in the array.
+
+2. Hash Map with Min Heap:
+    Similar to the previous approach, create a frequency map using a hash map.
+    Instead of sorting, use a min heap to keep track of the top k frequent elements.
+    Iterate through the frequency map and maintain a min heap of size k.
+    If the current element has a higher frequency than the root of the min heap,
+    replace the root with the current element and adjust the heap.
+    Finally, the min heap will contain the top k frequent elements.
+    This approach has a time complexity of O(n log k).
+
+3. Hash Map with Counting Sort
+    In general, if "k" is small compared to the number of unique elements in the input array and
+    memory is not a significant concern, the Counting Sort approach might be more efficient.
+    However, for larger values of "k" or when memory is a concern,
+    the Max Heap approach could be a better choice.
+
+4. Hash Map with Bucket Sort:
+    Create a frequency map using a hash map.
+    Then, use bucket sort to group elements based on their frequencies.
+    Create an array of buckets, where each bucket represents a frequency range.
+    Iterate through the frequency map and place elements in the corresponding bucket based on their frequency.
+    Finally, traverse the buckets from highest to lowest frequency and collect the top k frequent elements.
+    This approach has a time complexity of O(n).
+
+5. Quickselect Algorithm:
+    This approach utilizes the Quickselect algorithm,
+    which is an efficient selection algorithm to find the kth smallest element in an unsorted array.
+    In this case, we modify the Quickselect algorithm to find the kth largest element, which gives us the top k frequent elements.
+    The Quickselect algorithm has an average time complexity of O(n) and a worst-case time complexity of O(n^2),
+    but it can be optimized using various techniques like randomization or using the median of medians algorithm.
+

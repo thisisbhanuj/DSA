@@ -1,0 +1,39 @@
+Sure, let's dive into Topological Sorting!
+
+Topological sorting for a graph is not possible if the graph is not a Directed Acyclic Graph (DAG).
+The idea is to start with a node that has no incoming edges, and continue removing nodes from the graph along with their outgoing edges.
+
+There are two popular algorithms to perform topological sort:
+
+1. **Kahn's Algorithm (BFS based):**
+This algorithm works by choosing vertices in the same order as the final topological sort.
+It starts by identifying vertices that have no incoming edges (i.e., indegree = 0).
+These vertices are added to the topological sort and removed from the graph.
+The process is repeated until all vertices are removed.
+
+2. **DFS based Algorithm:**
+In this method, we use a temporary stack.
+We start from a node, we first print it and then recursively call DFS for its adjacent nodes.
+But, instead of printing it immediately, we first recursively call topological sort for all its adjacent nodes, then push it to a stack.
+Finally, print the contents of the stack.
+
+The time complexity for both the Kahn's algorithm and the Depth-First Search (DFS) based algorithm is \(O(V + E)\)
+
+1. **Kahn's Algorithm:**
+This algorithm is particularly useful when you need to provide a valid topological ordering
+(if one exists) even if the graph is not a DAG.
+If the graph is not a DAG, Kahn's algorithm will return
+an ordering that satisfies as many precedence constraints as possible.
+This characteristic can be useful in certain use cases,
+such as course scheduling, where you might want to provide a "best-effort" schedule
+even if some prerequisites are impossible to satisfy.
+
+2. **DFS based Algorithm:**
+It assumes that the graph is a DAG and will fail if the graph contains any cycles.
+This method is simpler and more intuitive, especially for those already familiar with DFS.
+However, it doesn't handle non-DAGs gracefully.
+
+So the choice between Kahn's algorithm and the DFS-based algorithm depends
+on whether or not you can guarantee that your graph is a DAG.
+If the graph may not be a DAG, Kahn's algorithm is the better choice.
+If the graph is definitely a DAG, then you can use either algorithm.
