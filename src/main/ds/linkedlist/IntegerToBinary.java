@@ -1,8 +1,8 @@
 package main.ds.linkedlist;
 
 public class IntegerToBinary {
-    public SingleLinkedListNode convertToBinary(int data) {
-        int digit = 0, remainder = 0;
+    public static SingleLinkedListNode convertToBinary(int data) {
+        int remainder = 0;
 
         SingleLinkedListNode current = null;
         SingleLinkedListNode head = null;
@@ -14,14 +14,16 @@ public class IntegerToBinary {
             if (head == null) {
                 head = new SingleLinkedListNode(remainder);
                 current = head;
-                System.out.println("Head Node : " + head.val);
             } else {
                 current.next = new SingleLinkedListNode(remainder);
                 current = current.next;
-                System.out.println("Other Node : " + current.val);
             }
         }
 
         return head;
+    }
+
+    public static void main(String[] args) {
+        SingleLinkedListNode.printList(convertToBinary(127));
     }
 }
