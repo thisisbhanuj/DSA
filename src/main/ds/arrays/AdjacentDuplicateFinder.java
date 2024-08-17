@@ -1,4 +1,4 @@
-package ds.arrays;
+package main.ds.arrays;
 
 /*
 * If you have an array with adjacent duplicate elements,

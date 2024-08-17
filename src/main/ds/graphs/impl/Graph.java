@@ -1,4 +1,4 @@
-package ds.graphs.impl;
+package main.ds.graphs.impl;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package ds.linkedlist.scenarios;
+package main.ds.linkedlist.scenarios;
 
 public class HashedKey {
     private Integer key;

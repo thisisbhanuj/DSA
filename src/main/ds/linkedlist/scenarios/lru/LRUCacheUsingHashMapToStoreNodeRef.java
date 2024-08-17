@@ -1,4 +1,4 @@
-package ds.linkedlist.scenarios.lru;
+package main.ds.linkedlist.scenarios.lru;
 
 import java.util.HashMap;
 import java.util.Map;

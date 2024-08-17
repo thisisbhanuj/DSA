@@ -1,4 +1,6 @@
-import ds.linkedlist.HashMapUsingVectorAndLinkedList;
+package main;
+
+import main.ds.linkedlist.HashMapUsingVectorAndLinkedList;
 
 public class Test {
     public static void main(String[] args){

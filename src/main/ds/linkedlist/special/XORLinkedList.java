@@ -1,4 +1,4 @@
-package ds.linkedlist.special;
+package main.ds.linkedlist.special;
 /*
 
 Few potential use cases where XOR Linked Lists are:

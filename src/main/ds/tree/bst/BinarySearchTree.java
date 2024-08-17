@@ -1,4 +1,4 @@
-package ds.tree.bst;
+package main.ds.tree.bst;
 
 import java.util.ArrayList;
 import java.util.List;

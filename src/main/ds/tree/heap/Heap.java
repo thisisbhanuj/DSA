@@ -1,4 +1,4 @@
-package ds.tree.heap;
+package main.ds.tree.heap;
 
 import java.util.ArrayList;
 

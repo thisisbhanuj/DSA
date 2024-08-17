@@ -1,4 +1,4 @@
-package ds.graphs.bipartite;
+package main.ds.graphs.bipartite;
 
 import java.util.*;
 

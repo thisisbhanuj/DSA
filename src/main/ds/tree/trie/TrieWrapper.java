@@ -1,4 +1,4 @@
-package ds.tree.trie;
+package main.ds.tree.trie;
 
 public class TrieWrapper {
     private RadixTrieInterface root;

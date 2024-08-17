@@ -1,4 +1,4 @@
-package ds.graphs.sorting;
+package main.ds.graphs.sorting;
 
 public class TopologicalSortingUsingKAHN {
 }

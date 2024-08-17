@@ -1,4 +1,4 @@
-package ds.recursion;
+package main.ds.recursion;
 
 import java.util.Arrays;
 

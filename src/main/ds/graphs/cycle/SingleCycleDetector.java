@@ -1,4 +1,4 @@
-package ds.graphs.cycle;
+package main.ds.graphs.cycle;
 
 import ds.graphs.impl.Graph;
 

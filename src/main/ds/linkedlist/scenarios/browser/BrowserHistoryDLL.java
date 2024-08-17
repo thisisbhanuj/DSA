@@ -1,4 +1,4 @@
-package ds.linkedlist.scenarios.browser;
+package main.ds.linkedlist.scenarios.browser;
 
 import java.util.LinkedList;
 

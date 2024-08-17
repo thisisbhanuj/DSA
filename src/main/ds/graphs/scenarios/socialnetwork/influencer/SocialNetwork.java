@@ -1,4 +1,4 @@
-package ds.graphs.scenarios.socialnetwork.influencer;
+package main.ds.graphs.scenarios.socialnetwork.influencer;
 
 import java.util.*;
 

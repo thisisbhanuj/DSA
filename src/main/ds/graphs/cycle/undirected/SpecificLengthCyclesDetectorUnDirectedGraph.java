@@ -1,4 +1,4 @@
-package ds.graphs.cycle.undirected;
+package main.ds.graphs.cycle.undirected;
 
 import java.util.*;
 

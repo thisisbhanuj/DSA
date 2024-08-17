@@ -1,4 +1,4 @@
-package ds.linkedlist;
+package main.ds.linkedlist;
 
 public class ReverseLinkedList {
 

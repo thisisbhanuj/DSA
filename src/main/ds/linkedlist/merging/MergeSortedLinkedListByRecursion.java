@@ -1,4 +1,4 @@
-package ds.linkedlist.merging;
+package main.ds.linkedlist.merging;
 
 import ds.linkedlist.SingleLinkedListNode;
 

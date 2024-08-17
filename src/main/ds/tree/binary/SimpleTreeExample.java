@@ -1,4 +1,4 @@
-package ds.tree.binary;
+package main.ds.tree.binary;
 
 public class SimpleTreeExample {
     public static class TreeNode {

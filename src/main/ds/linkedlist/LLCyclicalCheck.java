@@ -1,4 +1,4 @@
-package ds.linkedlist;
+package main.ds.linkedlist;
 /*
     NOTE : We can use HashSet to keep track of the values traversed,
            but it is going to make space complexity as O(n)

@@ -1,4 +1,4 @@
-package ds.graphs.cycle.union;
+package main.ds.graphs.cycle.union;
 
 import java.util.Arrays;
 

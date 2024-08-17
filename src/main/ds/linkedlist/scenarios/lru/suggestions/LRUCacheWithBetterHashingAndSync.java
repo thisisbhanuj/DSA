@@ -1,4 +1,4 @@
-package ds.linkedlist.scenarios.lru.suggestions;
+package main.ds.linkedlist.scenarios.lru.suggestions;
 
 import ds.linkedlist.scenarios.HashedKey;
 

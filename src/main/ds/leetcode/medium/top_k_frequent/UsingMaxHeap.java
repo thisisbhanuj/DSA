@@ -1,4 +1,4 @@
-    package ds.leetcode.medium.top_k_frequent;
+    package main.ds.leetcode.medium.top_k_frequent;
 
     import java.util.*;
 

@@ -1,4 +1,4 @@
-package ds.tree.trie;
+package main.ds.tree.trie;
 
 /*
 Non-compact trie, also known as a standard trie or radix trie, provides a flexible

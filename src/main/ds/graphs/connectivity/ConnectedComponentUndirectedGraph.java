@@ -1,4 +1,4 @@
-package ds.graphs.connectivity;
+package main.ds.graphs.connectivity;
 
 import java.util.*;
 
