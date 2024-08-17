@@ -1,6 +1,6 @@
 package main.ds.graphs.cycle;
 
-import ds.graphs.impl.Graph;
+import main.ds.graphs.impl.Graph;
 
 import java.util.*;
 

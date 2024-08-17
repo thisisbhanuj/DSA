@@ -1,6 +1,6 @@
 package main.ds.linkedlist.merging;
 
-import ds.linkedlist.SingleLinkedListNode;
+import main.ds.linkedlist.SingleLinkedListNode;
 
 /* Time complexity is O(n log(n)).
  * This is because the merge sort algorithm takes O(n log(n)) time to sort the merged linked list.

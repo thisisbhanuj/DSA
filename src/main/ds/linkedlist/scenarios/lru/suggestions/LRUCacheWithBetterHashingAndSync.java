@@ -1,6 +1,6 @@
 package main.ds.linkedlist.scenarios.lru.suggestions;
 
-import ds.linkedlist.scenarios.HashedKey;
+import main.ds.linkedlist.scenarios.HashedKey;
 
 import java.util.HashMap;
 import java.util.Map;

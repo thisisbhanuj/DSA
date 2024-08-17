@@ -1,6 +1,6 @@
 package main.ds.linkedlist.merging;
 
-import ds.linkedlist.SingleLinkedListNode;
+import main.ds.linkedlist.SingleLinkedListNode;
 
 public class MergeSortedLinkedListByRecursion {
     /*
