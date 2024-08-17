@@ -35,8 +35,7 @@ public class ArrayStack{
     }
 
     public boolean isEmpty(){
-        if (stack.length == 0) return true;
-        return false;
+        return stack.length == 0;
     }
 
     public void printStack(){
