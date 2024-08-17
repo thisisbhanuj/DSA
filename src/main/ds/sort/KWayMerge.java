@@ -1,6 +1,7 @@
 package main.ds.sort;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 class ArrayEntry {
@@ -44,7 +45,7 @@ public class KWayMerge {
      *                   - O(n) space is required to store the final merged array.
      */
     public static int[] mergeKLists(int[][] arrays) {
-        PriorityQueue<ArrayEntry> minHeap = new PriorityQueue<>((e1, e2) -> e1.value - e2.value);
+        PriorityQueue<ArrayEntry> minHeap = new PriorityQueue<>(Comparator.comparingInt(e -> e.value));
         int totalLength = 0;
 
         // Initialize the heap with the first element from each array
