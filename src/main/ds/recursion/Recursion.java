@@ -7,17 +7,13 @@ public class Recursion {
         // Reverse Array
         int[] array = {1,2,3,4,5};
         System.out.println("Original Array : " + Arrays.toString(array));
-        if (array.length > 0) {
-            int[] reversed = reverseTwoPointerArray(array, 0, array.length - 1);
-            if (reversed!= null && reversed.length > 0) {
-                System.out.println("Reversed Array : " + Arrays.toString(reversed));
-            }
-            // Alternate way
-            reverseOnePointer(array, 0);
-            if (array!= null && array.length > 0) {
-                System.out.println("Reversed Again : " + Arrays.toString(array));
-            }
+        int[] reversed = reverseTwoPointerArray(array, 0, array.length - 1);
+        if (reversed!= null && reversed.length > 0) {
+            System.out.println("Reversed Array : " + Arrays.toString(reversed));
         }
+        // Alternate way
+        reverseOnePointer(array, 0);
+        System.out.println("Reversed Again : " + Arrays.toString(array));
 
         // Palindrome
         String palindrome = "AABBBAA";
@@ -27,12 +23,10 @@ public class Recursion {
 
     private static int[] reverseTwoPointerArray(int[] arr, int start, int end) {
         if (start == end) return arr;
-        int[] array = arr;
-        int temp = array[start];
-        array[start] = array[end];
-        array[end] = temp;
-        int[] reversedArray = reverseTwoPointerArray(array, start + 1, end - 1);
-        return reversedArray;
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        return reverseTwoPointerArray(arr, start + 1, end - 1);
     }
 
     private static void reverseOnePointer(int[] arr, int start) {
