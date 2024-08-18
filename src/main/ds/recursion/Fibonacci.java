@@ -5,6 +5,15 @@ import utility.MemoryUsage;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    Memoization and DP Table Initialization:
+    Both methods efficiently compute Fibonacci numbers, but their implementation styles differ.
+    The memoization approach uses a HashMap to store results, while the DP approach uses a fixed-size array.
+    The array-based approach typically has slightly better performance due to reduced overhead.
+
+    - HashMap is very efficient for operations with average-case O(1) complexity for insertion and retrieval, but it introduces some overhead and uses more memory.
+    - Array is simpler and usually faster for indexed access due to direct array indexing. It has lower overhead and can be more space-efficient if the size is known and fixed.
+ */
 public class Fibonacci {
     private final Map<Integer, Long> cache = new HashMap<>();
 
@@ -26,7 +35,11 @@ public class Fibonacci {
         return dp[pos];
     }
 
-    // Fibonacci using memoization with a map
+    // Top-Down Approach (Memoization)
+    // In the Top-Down Approach (Memoization) for Fibonacci, you solve the problem recursively and use a cache to store results of subproblems as you compute them. This avoids redundant calculations by retrieving already computed values from the cache instead of recomputing them.
+    //
+    // Reduces time complexity to O(n) by avoiding redundant calculations. Each Fibonacci number is computed once and stored.
+    // Requires additional space for the cache, which is O(n), where n is the number of Fibonacci numbers calculated.
     private long fibonacciUsingMap(int pos) {
         if (pos == 1 || pos == 2) return 1;
 
