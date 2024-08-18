@@ -1,7 +1,6 @@
 package main.ds.linkedlist.scenarios.packagemanager;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /*
     Brent's algorithm is used here to detect cyclic dependencies in a package dependency graph.
@@ -25,48 +24,57 @@ public class PackageManager {
     private String detectCycle(PackageNode start) {
         if (start == null) return null;
 
-        PackageNode slow = start;
-        PackageNode fast = start;
+        // The visited set is used to track visited nodes to detect when a cycle is encountered.
+        Set<PackageNode> visited = new HashSet<>();
+        /* Depth-First Search (DFS) with a Stack */
+        // The parents map tracks the parent of each node, allowing us to backtrack to find the start of the cycle.
+        Map<PackageNode, PackageNode> parents = new HashMap<>();
+        // The stack is used for depth-first traversal of the dependencies.
+        Deque<PackageNode> stack = new ArrayDeque<>();
+        /* Depth-First Search (DFS) with a Stack */
 
-        int length = 0;
-        int power = 1;
+        stack.push(start);
+        parents.put(start, null);
 
-        // Detecting cycle
-        while (fast != null && !fast.dependencies.isEmpty()) {
-            if (length == power) {
-                power *= 2;
-                length = 0;
-                slow = fast;
+        while (!stack.isEmpty()) {
+            PackageNode current = stack.pop();
+
+            if (visited.contains(current)) {
+                return findCycleStart(current, parents);
             }
 
-            fast = fast.dependencies.iterator().next();
-            length++;
+            visited.add(current);
 
-            if (slow == fast) {
-                break; // Cycle Detected
+            for (PackageNode dependency : current.dependencies) {
+                if (!visited.contains(dependency)) {
+                    parents.put(dependency, current);
+                    stack.push(dependency);
+                } else if (stack.contains(dependency)) {
+                    // Cycle detected
+                    return findCycleStart(current, parents);
+                }
             }
         }
+        return null; // No cycle found
+    }
 
-        // No cycle found
-        if (fast == null || fast.dependencies.isEmpty()) {
-            return null;
+    private String findCycleStart(PackageNode node, Map<PackageNode, PackageNode> parents) {
+        Set<PackageNode> cycleNodes = new HashSet<>();
+        PackageNode temp = node;
+
+        // Traverse to find the cycle
+        while (temp != null) {
+            cycleNodes.add(temp);
+            temp = parents.get(temp);
         }
 
-        // Reset slow to start and move fast length steps ahead
-        slow = start;
-        fast = start;
-
-        for (int i = 0; i < length; i++) {
-            fast = fast.dependencies.iterator().next();
+        // Find intersection of cycle nodes
+        temp = node;
+        while (!cycleNodes.contains(parents.get(temp))) {
+            temp = parents.get(temp);
         }
 
-        // Detect the start of the cycle
-        while (slow != fast) {
-            slow = slow.dependencies.iterator().next();
-            fast = fast.dependencies.iterator().next();
-        }
-
-        return slow.name; // Cycle start node
+        return temp != null ? temp.name : null;
     }
 
     public static void main(String[] args) {
@@ -74,15 +82,16 @@ public class PackageManager {
         PackageNode packageNodeB = new PackageNode("B");
         PackageNode packageNodeC = new PackageNode("C");
         PackageNode packageNodeD = new PackageNode("D");
+        PackageNode packageNodeE = new PackageNode("E");
 
         packageNodeA.addDependencies(packageNodeB);
         packageNodeB.addDependencies(packageNodeC);
         packageNodeC.addDependencies(packageNodeD);
         packageNodeD.addDependencies(packageNodeB); // Cycle
+        packageNodeC.addDependencies(packageNodeE); // Another branch
 
         PackageManager packageManager = new PackageManager();
         String cycle = packageManager.detectCycle(packageNodeA);
-        System.out.println("Cyclic Dependency @ " + cycle);
+        System.out.println("Cyclic Dependency @ " + (cycle != null ? cycle : "Nothing Found"));
     }
 }
-
