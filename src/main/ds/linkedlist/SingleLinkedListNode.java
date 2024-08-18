@@ -7,6 +7,7 @@ public class SingleLinkedListNode {
     public SingleLinkedListNode(int val) {
         this.val = val;
     }
+
     public static void printList(SingleLinkedListNode head) {
         SingleLinkedListNode current = head;
         while (current != null) {
