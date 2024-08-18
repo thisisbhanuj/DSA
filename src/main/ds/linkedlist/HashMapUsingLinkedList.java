@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class HashMapUsingLinkedList<K, V> {
     private final ArrayList<LinkedListNode<K, V>> store;
-
     private final int capacity;
 
     public HashMapUsingLinkedList(int size){
@@ -19,43 +18,36 @@ public class HashMapUsingLinkedList<K, V> {
         return Math.abs(key.hashCode() % this.capacity);
     }
 
-    public void put(K key, V value){
-        int index = generateHashedIndex(key);
-        LinkedListNode<K, V> head = store.get(index);
-        LinkedListNode<K, V> newNode = new LinkedListNode<>(key, value);
-        if (head == null) {
-            store.set(index, newNode);
+    public void put(K key, V value) {
+        int index = generateHashedIndex(key); // Hash to find the bucket index
+        LinkedListNode<K, V> head = store.get(index); // Get the head of the linked list at this index
+
+        if (head == null) { // If the bucket is empty
+            store.set(index, new LinkedListNode<>(key, value)); // Insert the new node
         } else {
             LinkedListNode<K, V> current = head;
-            // Traverse all but the last node
-            while (current.next != null) {
-                if (current.key.equals(key)) {
-                    current.value = value; // Key already exists, update the value
+            while (current != null) { // Traverse the list
+                if (current.key.equals(key)) { // Compare the key
+                    current.value = value; // Update the existing node
                     return;
                 }
-                current = current.next;
-            }
-            if ((current.key.equals(key))){
-                current.value = value; // Key already exists, update the value
-            } else {
-                current.next = newNode; // Add the new node to the end of the linked list
+                if (current.next == null) { // If end of list is reached
+                    current.next = new LinkedListNode<>(key, value); // Append new node
+                    return;
+                }
+                current = current.next; // Move to next node
             }
         }
     }
 
     public V get(K key){
         int index = generateHashedIndex(key);
-        LinkedListNode<K, V> head = store.get(index);
-        if (head == null) {
-            return null;
-        } else {
-            LinkedListNode<K, V> current = head;
-            while (current != null) {
-                if (current.key.equals(key)) {
-                    return current.value;
-                }
-                current = current.next;
+        LinkedListNode<K, V> current = store.get(index);
+        while (current != null) {
+            if (current.key.equals(key)) {
+                return current.value;
             }
+            current = current.next;
         }
         return null;
     }
@@ -63,36 +55,33 @@ public class HashMapUsingLinkedList<K, V> {
     public boolean remove(K key) {
         int index = generateHashedIndex(key);
         LinkedListNode<K, V> head = store.get(index);
-        if (head == null || size() == 0) {
+        if (head == null) {
             return false;
-        } else {
-            if (head.key.equals(key)) {
-                store.set(index, head.next);
+        }
+        if (head.key.equals(key)) {
+            store.set(index, head.next);
+            return true;
+        }
+        LinkedListNode<K, V> prev = head;
+        LinkedListNode<K, V> current = head.next;
+        while (current != null) {
+            if (current.key.equals(key)) {
+                prev.next = current.next;
                 return true;
             }
-            LinkedListNode<K, V> prev = head;
-            LinkedListNode<K, V> current = head.next;
-            while (current != null) {
-                if (current.key.equals(key)) {
-                    prev.next = current.next;
-                    return true;
-                }
-                prev = current;
-                current = current.next;
-            }
+            prev = current;
+            current = current.next;
         }
         return false;
     }
 
     public int size() {
         int size = 0;
-        if (this.capacity > 0) {
-            for (LinkedListNode<K, V> node : store) {
-                LinkedListNode<K, V> current = node;
-                while (current != null) {
-                    size++;
-                    current = current.next;
-                }
+        for (LinkedListNode<K, V> node : store) {
+            LinkedListNode<K, V> current = node;
+            while (current != null) {
+                size++;
+                current = current.next;
             }
         }
         return size;
@@ -117,22 +106,21 @@ public class HashMapUsingLinkedList<K, V> {
     }
 
     public static void main(String[] args){
-        HashMapUsingLinkedList<String, Integer> hashSet = new HashMapUsingLinkedList<>(10);
+        HashMapUsingLinkedList<String, Integer> hashMap = new HashMapUsingLinkedList<>(10);
 
-        hashSet.put("Apple", 5);
-        hashSet.put("Banana", 10);
-        hashSet.put("Orange", 7);
-        hashSet.put("Orange", 7); // Adding duplicate key with updated value
+        hashMap.put("Apple", 5);
+        hashMap.put("Banana", 10);
+        hashMap.put("Orange", 7);
+        hashMap.put("Orange", 8); // Adding duplicate key with updated value
 
-        System.out.println("Size: " + hashSet.size());
-        System.out.println("Value for 'Banana': " + hashSet.get("Banana"));
+        System.out.println("Size: " + hashMap.size());
+        System.out.println("Value for 'Banana': " + hashMap.get("Banana"));
 
-        boolean removed = hashSet.remove("Apple");
+        boolean removed = hashMap.remove("Apple");
         System.out.println("Is removed? " + removed);
-        System.out.println("Size: " + hashSet.size());
+        System.out.println("Size: " + hashMap.size());
 
-        hashSet.clear();
-        System.out.println("Is empty after clear? " + hashSet.size());
-
+        hashMap.clear();
+        System.out.println("Size after clear: " + hashMap.size());
     }
 }
