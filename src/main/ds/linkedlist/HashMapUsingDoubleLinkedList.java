@@ -136,7 +136,7 @@ public class HashMapUsingDoubleLinkedList<K, V> {
     }
 
     public static void main(String[] args) {
-        HashMapUsingVectorAndLinkedList<String, Integer> hashSet = new HashMapUsingVectorAndLinkedList<>(10);
+        HashMapUsingLinkedList<String, Integer> hashSet = new HashMapUsingLinkedList<>(10);
 
         hashSet.put("Apple", 5);
         hashSet.put("Banana", 10);

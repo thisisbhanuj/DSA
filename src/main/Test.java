@@ -1,6 +1,6 @@
 package main;
 
-import main.ds.linkedlist.HashMapUsingVectorAndLinkedList;
+import main.ds.linkedlist.HashMapUsingLinkedList;
 
 public class Test {
     public static void main(String[] args){
@@ -25,7 +25,7 @@ public class Test {
         IntegerToBinary convertedBinary = new IntegerToBinary();
         head = convertedBinary.convertToBinary(10);*/
 
-        HashMapUsingVectorAndLinkedList<String, Integer> hashSet = new HashMapUsingVectorAndLinkedList<>(10);
+        HashMapUsingLinkedList<String, Integer> hashSet = new HashMapUsingLinkedList<>(10);
 
         hashSet.put("Apple", 5);
         hashSet.put("Banana", 10);
