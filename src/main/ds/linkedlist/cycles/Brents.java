@@ -44,6 +44,9 @@ public class Brents {
         // Find the cycle start
         slow = head;
         fast = head;
+        // After detecting a cycle, length represents the distance from the start of the cycle
+        // to the meeting point where slow and fast meet. To find the start of the cycle, you
+        // need to align fast with slow so they are both length nodes apart from the cycle's start.
         for (int i = 0; i < length; i++) {
             fast = fast.next;
         }
@@ -53,7 +56,6 @@ public class Brents {
             fast = fast.next;
         }
 
-        System.out.println("Cycle length : " + length);
         return slow.val; // Start of the cycle
     }
 
