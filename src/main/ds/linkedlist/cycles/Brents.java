@@ -11,7 +11,7 @@ public class Brents {
     // The brentCycleDetection method uses Brent's algorithm principles, where
     // the fast pointer moves in increasing steps (power), and the slow pointer
     // moves one step at a time. If they meet, a cycle is detected.
-    private static Integer detectCycleEntry(SingleLinkedListNode head) {
+    private Integer detectCycleEntry(SingleLinkedListNode head) {
         if (head == null) return null;
 
         SingleLinkedListNode slow = head;
@@ -88,7 +88,7 @@ public class Brents {
         node12.next = node13;
         node13.next = node10; // Cyclical
 
-        Integer cycleStart = detectCycleEntry(head);
+        Integer cycleStart = new Brents().detectCycleEntry(head);
         System.out.println("Cycle Start : " + (cycleStart != null ? cycleStart : "No cycle"));
     }
 }
