@@ -1,31 +1,30 @@
 package main.ds.linkedlist;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class HashMapUsingVectorAndLinkedList<K, V> {
-    private Vector<LinkedListNode<K, V>> vector;
+    private final ArrayList<LinkedListNode<K, V>> store;
 
-    private int capacity;
+    private final int capacity;
 
     public HashMapUsingVectorAndLinkedList(int size){
         this.capacity = size;
-        this.vector = new Vector<>(size);
+        this.store = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            vector.add(null);
+            store.add(null);
         }
     }
 
     public int generateHashedIndex(K key){
-        int hashedIndex = Math.abs(key.hashCode() % this.capacity);
-        return hashedIndex;
+        return Math.abs(key.hashCode() % this.capacity);
     }
 
     public void put(K key, V value){
         int index = generateHashedIndex(key);
-        LinkedListNode<K, V> head = vector.get(index);
+        LinkedListNode<K, V> head = store.get(index);
         LinkedListNode<K, V> newNode = new LinkedListNode<>(key, value);
         if (head == null) {
-            vector.set(index, newNode);
+            store.set(index, newNode);
         } else {
             LinkedListNode<K, V> current = head;
             // Traverse all but the last node
@@ -46,7 +45,7 @@ public class HashMapUsingVectorAndLinkedList<K, V> {
 
     public V get(K key){
         int index = generateHashedIndex(key);
-        LinkedListNode<K, V> head = vector.get(index);
+        LinkedListNode<K, V> head = store.get(index);
         if (head == null) {
             return null;
         } else {
@@ -63,12 +62,12 @@ public class HashMapUsingVectorAndLinkedList<K, V> {
 
     public boolean remove(K key) {
         int index = generateHashedIndex(key);
-        LinkedListNode<K, V> head = vector.get(index);
+        LinkedListNode<K, V> head = store.get(index);
         if (head == null || size() == 0) {
             return false;
         } else {
             if (head.key.equals(key)) {
-                vector.set(index, head.next);
+                store.set(index, head.next);
                 return true;
             }
             LinkedListNode<K, V> prev = head;
@@ -88,7 +87,7 @@ public class HashMapUsingVectorAndLinkedList<K, V> {
     public int size() {
         int size = 0;
         if (this.capacity > 0) {
-            for (LinkedListNode<K, V> node : vector) {
+            for (LinkedListNode<K, V> node : store) {
                 LinkedListNode<K, V> current = node;
                 while (current != null) {
                     size++;
@@ -100,14 +99,8 @@ public class HashMapUsingVectorAndLinkedList<K, V> {
     }
 
     public void clear() {
-        // the node variable is a local reference to the elements in the Vector,
-        // and assigning null to the node variable will not update the actual elements in the Vector.
-        /*for (LinkedListNode<K, V> node : vector) {
-            node = null;
-        }*/
-
         for (int i = 0; i < capacity; i++) {
-            vector.set(i, null);
+            store.set(i, null);
         }
     }
 

@@ -1,31 +1,30 @@
 package main.ds.linkedlist;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class HashMapUsingDoubleLinkedList<K, V> {
-    private Vector<DoublyLinkedListNode<K, V>> vector;
+    private final ArrayList<DoublyLinkedListNode<K, V>> store;
 
-    private int capacity;
+    private final int capacity;
 
     public HashMapUsingDoubleLinkedList(int size) {
         this.capacity = size;
-        this.vector = new Vector<>(size);
+        this.store = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            vector.add(null);
+            store.add(null);
         }
     }
 
     public int generateHashedIndex(K key) {
-        int hashedIndex = Math.abs(key.hashCode() % this.capacity);
-        return hashedIndex;
+        return Math.abs(key.hashCode() % this.capacity);
     }
 
     public void put(K key, V value) {
         int index = generateHashedIndex(key);
-        DoublyLinkedListNode<K, V> head = vector.get(index);
+        DoublyLinkedListNode<K, V> head = store.get(index);
         DoublyLinkedListNode<K, V> newNode = new DoublyLinkedListNode<>(key, value);
         if (head == null) {
-            vector.set(index, newNode);
+            store.set(index, newNode);
         } else {
             DoublyLinkedListNode<K, V> current = head;
             // Traverse all but the last node
@@ -50,7 +49,7 @@ public class HashMapUsingDoubleLinkedList<K, V> {
 
     public V get(K key) {
         int index = generateHashedIndex(key);
-        DoublyLinkedListNode<K, V> head = vector.get(index);
+        DoublyLinkedListNode<K, V> head = store.get(index);
         if (head == null) {
             return null;
         } else {
@@ -67,12 +66,12 @@ public class HashMapUsingDoubleLinkedList<K, V> {
 
     public boolean remove(K key) {
         int index = generateHashedIndex(key);
-        DoublyLinkedListNode<K, V> head = vector.get(index);
+        DoublyLinkedListNode<K, V> head = store.get(index);
         if (head == null || size() == 0) {
             return false;
         } else {
             if (head.key.equals(key)) {
-                vector.set(index, head.next);
+                store.set(index, head.next);
                 if (head.next != null) {
                     head.next.prev = null;
                 }
@@ -98,7 +97,7 @@ public class HashMapUsingDoubleLinkedList<K, V> {
     public int size() {
         int size = 0;
         if (this.capacity > 0) {
-            for (DoublyLinkedListNode<K, V> node : vector) {
+            for (DoublyLinkedListNode<K, V> node : store) {
                 DoublyLinkedListNode<K, V> current = node;
                 while (current != null) {
                     size++;
@@ -111,14 +110,14 @@ public class HashMapUsingDoubleLinkedList<K, V> {
 
     public void clear() {
         for (int i = 0; i < capacity; i++) {
-            DoublyLinkedListNode<K, V> head = vector.get(i);
+            DoublyLinkedListNode<K, V> head = store.get(i);
             while (head != null) {
                 DoublyLinkedListNode<K, V> next = head.next;
                 head.prev = null;
                 head.next = null;
                 head = next;
             }
-            vector.set(i, null);
+            store.set(i, null);
         }
     }
 
