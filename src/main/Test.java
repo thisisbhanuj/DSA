@@ -1,46 +1,47 @@
 package main;
 
-import main.ds.linkedlist.HashMapUsingLinkedList;
-
 public class Test {
-    public static void main(String[] args){
-        /*ArrayStack arrayStack = new ArrayStack(5);
-        arrayStack.push(new Employee("Bhanuj", "Kashap", 1));
-        arrayStack.push(new Employee("Zach", "O'Brien", 2));
-        arrayStack.printStack();
-        System.out.println("*****************************************************");
-        arrayStack.pop();
-        arrayStack.printStack();*/
+    static class SingleLinkedListNode {
+        public int value;
+        public SingleLinkedListNode next;
 
-        // Create a linked list representing the binary number: 1 -> 0 -> 1 -> 0
-        /*ListNode head = new ListNode(1);
-        head.next = new ListNode(0);
-        head.next.next = new ListNode(1);
-        head.next.next.next = new ListNode(0);
-
-        BinaryToInteger converter = new BinaryToInteger();
-        int result = converter.convertBinaryToInteger(head);
-        // System.out.println("Converted integer: " + result);
-
-        IntegerToBinary convertedBinary = new IntegerToBinary();
-        head = convertedBinary.convertToBinary(10);*/
-
-        HashMapUsingLinkedList<String, Integer> hashSet = new HashMapUsingLinkedList<>(10);
-
-        hashSet.put("Apple", 5);
-        hashSet.put("Banana", 10);
-        hashSet.put("Orange", 7);
-
-        System.out.println("Size: " + hashSet.size());
-        System.out.println("Value for 'Banana': " + hashSet.get("Banana"));
-
-        boolean removed = hashSet.remove("Apple");
-        System.out.println("Is removed? " + removed);
-        System.out.println("Size: " + hashSet.size());
-
-        hashSet.clear();
-        System.out.println("Is empty after clear? " + hashSet.size());
-
+        SingleLinkedListNode(int p_value) {
+            this.value = p_value;
+        }
     }
 
+    static SingleLinkedListNode mergeSort(SingleLinkedListNode head1, SingleLinkedListNode head2){
+       if (head1 == null && head2 == null) return null;
+       if (head1 == null) return head2;
+       if (head2 == null) return head1;
+
+       if (head1.value <= head2.value) {
+            head1.next = mergeSort(head1.next, head2);
+            return head1;
+       } else {
+            head2.next = mergeSort(head2.next, head1);
+            return head2;
+       }
+    }
+
+    public static void main(String[] args){
+        SingleLinkedListNode head1 = new SingleLinkedListNode(1);
+        SingleLinkedListNode node1 = new SingleLinkedListNode(4);
+        SingleLinkedListNode node2 = new SingleLinkedListNode(5);
+
+        SingleLinkedListNode head2 = new SingleLinkedListNode(3);
+        SingleLinkedListNode node3 = new SingleLinkedListNode(6);
+        SingleLinkedListNode node4 = new SingleLinkedListNode(8);
+
+        head1.next = node1;
+        node1.next = node2;
+        head2.next = node3;
+        node3.next = node4;
+
+        SingleLinkedListNode mergedList = mergeSort(head1, head2);
+        while (mergedList != null) {
+            System.out.println(mergedList.value);
+            mergedList = mergedList.next;
+        }
+    }
 }
