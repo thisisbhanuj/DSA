@@ -1,113 +1,139 @@
 package main.ds.tree.bst;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * A simple implementation of a Binary Search Tree (BST).
+ * This class provides methods to insert, delete, find, and traverse nodes in the tree.
+ */
 public class BinarySearchTree {
+
+    /**
+     * A private inner class representing a node in the binary tree.
+     * Each node contains a value and references to its left and right children.
+     */
     private static class BinaryTree {
         private int value;
         private BinaryTree left;
         private BinaryTree right;
-        private int depth;
 
-        public BinaryTree(int value, int depth) {
+        /**
+         * Constructor to create a new node.
+         *
+         * @param value The integer value to store in the node.
+         */
+        public BinaryTree(int value) {
             this.value = value;
             this.left = null;
             this.right = null;
-            this.depth = depth;
         }
     }
 
+    // Root of the Binary Search Tree
     private static BinaryTree root;
 
-    /*
-    * It can traverse the tree from any given node
-    * Time Complexity : O(n)
-    * Space Complexity: O(height), it is determined by the maximum height of the function call stack due to recursive calls
-    *                   for balanced tree it will be O(log[n])
-    * */
-    public static BinaryTree traverseInOrder(BinaryTree current){
-        if (current != null && current.left != null) {
-            current.left = traverseInOrder(current.left);
-        }
+    /**
+     * Traverses the binary tree in an in-order fashion (left, root, right).
+     * This method prints the value of each node in ascending order.
+     *
+     * @param current The current node being traversed.
+     */
+    public static void traverseInOrder(BinaryTree current) {
+        if (current == null) return;
 
+        // Traverse left subtree
+        traverseInOrder(current.left);
+        // Visit the root node
         System.out.print(current.value + " ");
+        // Traverse right subtree
+        traverseInOrder(current.right);
+    }
 
-        if (current != null && current.right != null) {
-            current.right = traverseInOrder(current.right);
-        }
-        return current; // IF we return null then it change the existing tree, only root will remain
-    };
-
+    /**
+     * Calculates the maximum height (depth) of the binary tree.
+     *
+     * @param current The current node being examined.
+     * @return The maximum height of the tree, or -1 if the tree is empty.
+     */
     public static int maxHeight(BinaryTree current) {
-        // Returning -1 when the node parameter is null is a convention
-        // often used in tree-related algorithms to handle the base case of an empty tree.
         if (current == null) return -1;
         int leftHeight = maxHeight(current.left);
         int rightHeight = maxHeight(current.right);
 
+        // Height is the maximum of left or right subtree height plus one for the current node
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
+    /**
+     * Finds the node with the minimum value in the binary tree.
+     *
+     * @param current The current node being examined.
+     * @return The node with the minimum value.
+     */
     public static BinaryTree minimum(BinaryTree current) {
-        if (current.left == null) return current;
-
-        return minimum(current.left);
-    }
-
-    public static BinaryTree maximum(BinaryTree current) {
-        if (current.right == null) return current;
-
-        return maximum(current.right);
-    }
-
-    /*
-     * It can traverse the tree from any given node
-     * Time Complexity : O(log[n])
-     * Space Complexity: O(height), it is determined by the maximum height of the function call stack due to recursive calls
-     *                   for balanced tree it will be O(log[n])
-     * */
-    public static BinaryTree find(BinaryTree current, int data){
-        if (current != null && data == current.value) {
-            return current;
+        // The minimum value is found in the leftmost node
+        while (current.left != null) {
+            current = current.left;
         }
+        return current;
+    }
 
-        if (current != null) {
-            if (data < current.value) {
-                return find(current.left, data);
+    /**
+     * Finds the node with the maximum value in the binary tree.
+     *
+     * @param current The current node being examined.
+     * @return The node with the maximum value.
+     */
+    public static BinaryTree maximum(BinaryTree current) {
+        // The maximum value is found in the rightmost node
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current;
+    }
+
+    /**
+     * Searches for a node with the specified value in the binary tree.
+     *
+     * @param current The current node being examined.
+     * @param data The value to search for.
+     * @return The node containing the value, or null if not found.
+     */
+    public static BinaryTree find(BinaryTree current, int data) {
+        while (current != null) {
+            if (data == current.value) {
+                return current;
+            } else if (data < current.value) {
+                current = current.left;
             } else {
-                return find(current.right, data);
+                current = current.right;
             }
         }
-
         return null;
     }
 
-    private static BinaryTree deleteAndReplace(BinaryTree current, int data){
+    /**
+     * Deletes a node with the specified value from the binary tree.
+     * The deleted node is replaced by its in-order successor if it has two children.
+     *
+     * @param current The current node being examined.
+     * @param data The value of the node to be deleted.
+     * @return The modified tree after deletion.
+     */
+    private static BinaryTree deleteAndReplace(BinaryTree current, int data) {
         if (current == null) return null;
 
         if (data == current.value) {
-            /* Case 1: Node to be deleted has no child or only one child. */
-            if (current.left == null && current.right == null){ // No child
-                current = null;
-            } else if (current.left == null){ // Has Left child
-                current = current.right;
-            } else if (current.right == null){ // Has Right child
-                current = current.left;
-            } else {
-                /* Case 2: Node to be deleted has both left and right children. */
+            // Case 1: Node has no children
+            if (current.left == null && current.right == null) return null;
 
-                //  We need to find a replacement node that preserves the BST property.
-                //  One approach is to find either the successor or predecessor of the node to be deleted.
-                //  The successor is the smallest node in the right subtree,
-                //  and the predecessor is the largest node in the left subtree.
-                //  By replacing the node to be deleted with the successor or predecessor,
-                //  we ensure that the BST property is maintained.
-                //  After that, we need to delete the successor or predecessor node from its original location.
-                BinaryTree successor = minimum(current.right);
-                current.value = successor.value;
-                current.right = deleteAndReplace(current.right, successor.value);
-            }
+            // Case 2: Node has only one child
+            if (current.left == null) return current.right;
+            if (current.right == null) return current.left;
+
+            // Case 3: Node has two children
+            BinaryTree successor = minimum(current.right);
+            current.value = successor.value;
+            current.right = deleteAndReplace(current.right, successor.value);
+
         } else if (data < current.value) {
             current.left = deleteAndReplace(current.left, data);
         } else {
@@ -117,41 +143,71 @@ public class BinarySearchTree {
         return current;
     }
 
-    private static void delete(int value){
-        deleteAndReplace(root, value);
+    /**
+     * Public method to delete a node with the specified value from the binary tree.
+     *
+     * @param value The value of the node to be deleted.
+     */
+    private static void delete(int value) {
+        root = deleteAndReplace(root, value);
     }
 
-    public static BinaryTree insert(BinaryTree current, int data, int depth) {
+    /**
+     * Inserts a new value into the binary tree at the appropriate position.
+     *
+     * @param current The current node being examined.
+     * @param data The value to insert.
+     * @return The updated tree after insertion.
+     */
+    public static BinaryTree insert(BinaryTree current, int data) {
         if (current == null) {
-            current = new BinaryTree(data, depth);
-            return current;
+            return new BinaryTree(data);
         }
 
         if (data < current.value) {
-            current.left = insert(current.left, data, depth + 1);
+            current.left = insert(current.left, data);
         } else {
-            current.right = insert(current.right, data, depth + 1);
+            current.right = insert(current.right, data);
         }
 
         return current;
     }
 
+    /**
+     * Adds a new child node to the binary tree.
+     * The method inserts the new value starting from the root node.
+     *
+     * @param data The value of the new child node.
+     * @throws IllegalStateException If the root node has not been created.
+     */
     public static void addChild(int data) {
         if (root == null) {
             throw new IllegalStateException("Cannot add child. Root node not created.");
         }
 
-        insert(root, data, 0);
+        insert(root, data);
     }
 
+    /**
+     * Creates the root node of the binary tree with the specified value.
+     *
+     * @param value The value of the root node.
+     * @throws IllegalStateException If the root node already exists.
+     */
     public static void createRoot(int value) {
         if (root != null) {
             throw new IllegalStateException("Root node already exists.");
         }
 
-        root = new BinaryTree(value, 0);
+        root = new BinaryTree(value);
     }
 
+    /**
+     * The main method demonstrates the use of the Binary Search Tree by performing
+     * various operations like insertion, traversal, searching, and deletion.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         createRoot(100);
         addChild(10);
@@ -167,20 +223,22 @@ public class BinarySearchTree {
         int height = maxHeight(root);
         System.out.println("Max Height : " + height);
 
+        System.out.print("In-order Traversal: ");
         traverseInOrder(root);
         System.out.println();
 
         BinaryTree found = find(root, 99);
         if (found != null) {
-            System.out.println("Found : " + found);
+            System.out.println("Found node with value: " + found.value);
         } else {
-            System.out.println("Not found!");
+            System.out.println("Node not found!");
         }
 
-        System.out.println("MAX - " + maximum(root).value);
-        System.out.println("MIN - " + minimum(root).value);
+        System.out.println("Maximum value in the tree: " + maximum(root).value);
+        System.out.println("Minimum value in the tree: " + minimum(root).value);
 
         delete(5);
+        System.out.print("In-order Traversal after deletion: ");
         traverseInOrder(root);
     }
 }
