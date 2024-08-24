@@ -1,68 +1,105 @@
 package main.ds.tree.heap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HeapSort {
-    private static final ArrayList<Integer> heap = new ArrayList<>();
+    public static final ArrayList<Integer> heap = new ArrayList<>();
 
-    private static void heapify(int index, int heapSize) {
-        int smallest = index;
-        int leftChildIndex = 2 * index + 1;
-        int rightChildIndex = 2 * index + 2;
+    static int parentIndex(int position) {
+        return (position - 1) / 2;
+    }
 
-        if (leftChildIndex < heapSize && heap.get(leftChildIndex) > heap.get(smallest)) {
-            smallest = leftChildIndex;
+    static int getLeftChildIndex(Integer position) {
+        return 2 * position + 1;
+    }
+
+    static int getRightChildIndex(Integer position) {
+        return 2 * position + 2;
+    }
+
+    static boolean isLeaf(Integer position) {
+        return position >= heap.size() / 2 && position < heap.size();
+    }
+
+    static void swap(ArrayList<Integer> heap, Integer position, Integer index) {
+        int temp = heap.get(position);
+        heap.set(position, heap.get(index));
+        heap.set(index, temp);
+    }
+
+    static void heapify(ArrayList<Integer> heap, Integer position, Integer size) {
+        if (isLeaf(position)) return;
+
+        int leftChildIndex = getLeftChildIndex(position);
+        int rightChildIndex = getRightChildIndex(position);
+
+        int largestIndex = position;
+
+        if (leftChildIndex < size && heap.get(leftChildIndex) > heap.get(position)) {
+            largestIndex = leftChildIndex;
         }
 
-        if (rightChildIndex < heapSize && heap.get(rightChildIndex) > heap.get(smallest)) {
-            smallest = rightChildIndex;
+        if (rightChildIndex < size && heap.get(rightChildIndex) > heap.get(largestIndex)) {
+            largestIndex = rightChildIndex;
         }
 
-        if (smallest != index) {
-            swap(index, smallest);
-            heapify(smallest, heapSize);
+        if (largestIndex != position) {
+            swap(heap, position, largestIndex);
+            heapify(heap, largestIndex, size);
         }
     }
 
-    private static void swap(int i, int j) {
-        int temp = heap.get(i);
-        heap.set(i, heap.get(j));
-        heap.set(j, temp);
-    }
-
-    private static ArrayList<Integer> extractAndHeapify() {
-        int heapSize = heap.size();
-        ArrayList<Integer> sortedArray = new ArrayList<>(heapSize);
-
-        while (heapSize > 0) {
-            sortedArray.add(0, heap.get(0));
-            swap(0, heapSize - 1);
-            heapSize--;
-            heapify(0, heapSize);
+    static void createMaxHeap(int[] data) {
+        for (int val : data) {
+            heap.add(val);
         }
 
-        return sortedArray;
+        for (int index = parentIndex(heap.size() - 1); index >= 0; index--) {
+            heapify(heap, index, heap.size());
+        }
     }
 
-    private static void createMaxHeap(int[] unsortedArray) {
-        heap.clear();
-        for (int j : unsortedArray) {
-            heap.add(j);
-            int currentIndex = heap.size() - 1;
-            int parentIndex = (currentIndex - 1) / 2;
-            while (currentIndex > 0 && heap.get(currentIndex) > heap.get(parentIndex)) {
-                swap(currentIndex, parentIndex);
-                currentIndex = parentIndex; // Moving forward
-                parentIndex = (currentIndex - 1) / 2;
+    static void heapSortInPlace() {
+        // Extract elements one by one
+        for (int i = heap.size() - 1; i > 0; i--) {
+            swap(heap, 0, i);  // Move current root to end
+            heapify(heap, 0, i);  // Heapify the reduced heap
+        }
+    }
+
+    static void printSortedHeap() {
+        System.out.println("Sorted Heap:");
+        for (int val : heap) {
+            System.out.print(val + " ");
+        }
+        System.out.println();
+    }
+
+    static void display() {
+        for (int index = 0; index < heap.size() / 2; index++) {
+            System.out.println("Parent : " + heap.get(index));
+
+            int leftChildIndex = getLeftChildIndex(index);
+            if (leftChildIndex < heap.size()) {
+                System.out.println("Left : " + heap.get(leftChildIndex));
             }
+
+            int rightChildIndex = getRightChildIndex(index);
+            if (rightChildIndex < heap.size()) {
+                System.out.println("Right : " + heap.get(rightChildIndex));
+            }
+
+            System.out.println();
         }
     }
 
     public static void main(String[] args) {
-        int[] unsortedArray = {10, 5, 7, 0, 80, 3};
-        createMaxHeap(unsortedArray);
-        System.out.println("Max Heap: " + heap);
-        ArrayList<Integer> sortedArray = extractAndHeapify();
-        System.out.println("Sorted Array: " + sortedArray);
+        int[] data = {5, 6, 3, 1, 7, 8, 0, 4, 2, 11};
+
+        createMaxHeap(data);
+        display();
+        heapSortInPlace();
+        printSortedHeap();
     }
 }
