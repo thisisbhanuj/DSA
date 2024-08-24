@@ -1,7 +1,6 @@
 package main.ds.tree.heap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HeapSort {
     public static final ArrayList<Integer> heap = new ArrayList<>();
