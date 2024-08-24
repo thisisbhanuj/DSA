@@ -3,7 +3,7 @@ package main.ds.tree.heap;
 import java.util.ArrayList;
 
 public class HeapSort {
-    private static ArrayList<Integer> heap = new ArrayList<>();
+    private static final ArrayList<Integer> heap = new ArrayList<>();
 
     private static void heapify(int index, int heapSize) {
         int smallest = index;
@@ -46,8 +46,8 @@ public class HeapSort {
 
     private static void createMaxHeap(int[] unsortedArray) {
         heap.clear();
-        for (int i = 0; i < unsortedArray.length; i++) {
-            heap.add(unsortedArray[i]);
+        for (int j : unsortedArray) {
+            heap.add(j);
             int currentIndex = heap.size() - 1;
             int parentIndex = (currentIndex - 1) / 2;
             while (currentIndex > 0 && heap.get(currentIndex) > heap.get(parentIndex)) {
