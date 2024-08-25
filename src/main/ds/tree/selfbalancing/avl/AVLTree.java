@@ -3,6 +3,10 @@ package main.ds.tree.selfbalancing.avl;
 public class AVLTree {
     private AVLNode root;
 
+    public AVLNode getRoot() {
+        return root;
+    }
+
     // Get height directly from the node (cached value)
     public int getHeight(AVLNode node){
         return (node == null) ? 0 : node.height;
