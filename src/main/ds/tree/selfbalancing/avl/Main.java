@@ -10,6 +10,6 @@ public class Main {
         tree.insert(50);
 
         System.out.println("Inorder traversal of the constructed AVL tree:");
-        tree.inorder();  // Output will be sorted
+        tree.inorderTraversal();  // Output will be sorted
     }
 }
