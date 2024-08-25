@@ -2,14 +2,19 @@ package main.ds.tree.selfbalancing.avl;
 
 public class Main {
     public static void main(String[] args) {
-        AVLTree tree = new AVLTree();
-
-        tree.insert(10);
-        tree.insert(20);
-        tree.insert(30);
-        tree.insert(50);
+        AVLTree avlTree = new AVLTree();
+        avlTree.insert(10);
+        avlTree.insert(20);
+        avlTree.insert(30);
+        avlTree.insert(40);
+        avlTree.insert(50);
+        avlTree.insert(15);
 
         System.out.println("Inorder traversal of the constructed AVL tree:");
-        tree.inorderTraversal();  // Output will be sorted
+        avlTree.inorderTraversal();  // Output will be sorted
+
+        avlTree.delete(10);
+        System.out.println("Inorder traversal of the constructed AVL tree, after deletion");
+        avlTree.inorderTraversal();
     }
 }
