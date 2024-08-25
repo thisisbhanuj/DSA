@@ -1,6 +1,6 @@
 package main.ds.tree.selfbalancing.avl;
 
-class AVLNode {
+public class AVLNode {
     int value;       // The value stored in the node
     int height;      // Height of the node in the tree
     AVLNode left;    // Left child node

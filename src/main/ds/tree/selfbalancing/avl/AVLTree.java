@@ -4,56 +4,46 @@ package main.ds.tree.selfbalancing.avl;
 public class AVLTree {
     private AVLNode root;
 
-    // Get the height of a node
-    private int getHeight(AVLNode node) {
+    public int getHeight(AVLNode node){
         if (node == null) return 0;
         return node.height;
     }
 
-    // Get the balance factor of a node (difference between left and right subtree heights)
-    private int getBalanceFactor(AVLNode node) {
-        if (node == null) return 0;
+    public int getBalanceFactor(AVLNode node){
+        if(node == null) return 0;
         return getHeight(node.left) - getHeight(node.right);
     }
 
-    // Right rotation to fix Left-Left imbalance
-    private AVLNode rotateRight(AVLNode unbalancedNode) {
-        AVLNode newRoot = unbalancedNode.left;
-        AVLNode movedSubtree = newRoot.right;
-
-        // Perform rotation
-        newRoot.right = unbalancedNode;
-        unbalancedNode.left = movedSubtree;
-
-        // Update heights
-        unbalancedNode.height = Math.max(getHeight(unbalancedNode.left), getHeight(unbalancedNode.right)) + 1;
-        newRoot.height = Math.max(getHeight(newRoot.left), getHeight(newRoot.right)) + 1;
-
-        // Return new root after rotation
-        return newRoot;
-    }
-
-    // Left rotation to fix Right-Right imbalance
-    private AVLNode rotateLeft(AVLNode unbalancedNode) {
+    public AVLNode rotateLeft(AVLNode unbalancedNode){
         AVLNode newRoot = unbalancedNode.right;
-        AVLNode movedSubtree = newRoot.left;
+        AVLNode movedSubTree = newRoot.left;
 
-        // Perform rotation
         newRoot.left = unbalancedNode;
-        unbalancedNode.right = movedSubtree;
+        unbalancedNode.right = movedSubTree;
 
-        // Update heights
         unbalancedNode.height = Math.max(getHeight(unbalancedNode.left), getHeight(unbalancedNode.right)) + 1;
         newRoot.height = Math.max(getHeight(newRoot.left), getHeight(newRoot.right)) + 1;
 
-        // Return new root after rotation
         return newRoot;
     }
 
-    // Insert a value into the AVL tree and balance the tree
-    private AVLNode insertNode(AVLNode node, int value) {
-        // Perform normal BST insertion
-        if (node == null) return new AVLNode(value);
+    public AVLNode rotateRight(AVLNode unbalancedNode){
+        AVLNode newRoot = unbalancedNode.left;
+        AVLNode movedSubTree = newRoot.right;
+
+        newRoot.right = unbalancedNode;
+        unbalancedNode.left = movedSubTree;
+
+        unbalancedNode.height = Math.max(getHeight(unbalancedNode.left), getHeight(unbalancedNode.right)) + 1;
+        newRoot.height = Math.max(getHeight(newRoot.left), getHeight(newRoot.right)) + 1;
+
+        return newRoot;
+    }
+
+    public AVLNode insertNode(AVLNode node, int value){
+        if (node == null) {
+            return new AVLNode(value);  // New node creation
+        }
 
         if (value < node.value) {
             node.left = insertNode(node.left, value);
@@ -64,48 +54,48 @@ public class AVLTree {
             return node;
         }
 
-        // Update the height of the ancestor node
-        node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+        // Update height of this ancestor node
+        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 
-        // Get the balance factor to check if the node is unbalanced
+        // Balance the node and return
+        return balanceNode(node, value);
+    }
+
+    private AVLNode balanceNode(AVLNode node, int value) {
         int balanceFactor = getBalanceFactor(node);
 
-        // Perform rotations to balance the node if needed
-        if (balanceFactor > 1 && value < node.left.value) {
-            // Left-Left case
-            return rotateRight(node);
+        if (balanceFactor > 1) {
+            if (value < node.left.value) {
+                return rotateRight(node);  // Left-Left case
+            } else if (value > node.left.value) {
+                node.left = rotateLeft(node.left);  // Left-Right case
+                return rotateRight(node);
+            }
         }
 
-        if (balanceFactor < -1 && value > node.right.value) {
-            // Right-Right case
-            return rotateLeft(node);
+        if (balanceFactor < -1) {
+            if (value > node.right.value) {
+                return rotateLeft(node);  // Right-Right case
+            } else if (value < node.right.value) {
+                node.right = rotateRight(node.right);  // Right-Left case
+                return rotateLeft(node);
+            }
         }
 
-        if (balanceFactor > 1 && value > node.left.value) {
-            // Left-Right case
-            node.left = rotateLeft(node.left);
-            return rotateRight(node);
-        }
-
-        if (balanceFactor < -1 && value < node.right.value) {
-            // Right-Left case
-            node.right = rotateRight(node.right);
-            return rotateLeft(node);
-        }
-
-        // Return the unchanged node pointer
-        return node;
+        return node;  // Node is balanced
     }
 
-    // Public method to insert a value into the AVL tree
     public void insert(int value) {
-        root = insertNode(root, value);
+        if (root == null) {
+            root = new AVLNode(value);
+        } else {
+            root = insertNode(root, value);  // Ensure the root is updated
+        }
     }
 
-    // In-order traversal of the AVL tree (for sorted order output)
     public void inorderTraversal() {
         inorderTraversalRec(root);
-        System.out.println();  // Print newline after traversal
+        System.out.println();
     }
 
     private void inorderTraversalRec(AVLNode node) {
