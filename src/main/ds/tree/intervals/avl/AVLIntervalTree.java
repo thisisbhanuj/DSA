@@ -33,6 +33,7 @@ public class AVLIntervalTree {
             queryOverlappingIntervalsRec(node.right, start, end, result);
         }
     }
+
     // Get height directly from the node (cached value)
     public int getHeight(AVLIntervalNode node){
         return (node == null) ? 0 : node.height;
@@ -102,10 +103,10 @@ public class AVLIntervalTree {
         }
 
         updateHeight(node);
-        return balanceNode(node, start, end);
+        return balanceNode(node, start);
     }
 
-    private AVLIntervalNode balanceNode(AVLIntervalNode node, int start, int end) {
+    private AVLIntervalNode balanceNode(AVLIntervalNode node, int start) {
         int balanceFactor = getBalanceFactor(node);
 
         if (balanceFactor > 1) {
@@ -174,7 +175,7 @@ public class AVLIntervalTree {
         updateHeight(node);
 
         // Balance the node and return
-        return balanceNode(node, start, end);
+        return balanceNode(node, start);
     }
 
     private AVLIntervalNode getMinValueNode(AVLIntervalNode node) {
@@ -184,7 +185,6 @@ public class AVLIntervalTree {
         }
         return current;
     }
-
 
     public void insert(int start, int end) {
         if (root == null) {
