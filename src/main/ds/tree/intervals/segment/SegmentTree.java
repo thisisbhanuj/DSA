@@ -1,5 +1,7 @@
 package main.ds.tree.intervals.segment;
 
+import java.util.Arrays;
+
 /**
  * A Segment Tree is a data structure that allows for efficient querying and updating of intervals or ranges.
  * It's particularly useful for scenarios like range sum, range minimum/maximum, and other associative operations over an array.
@@ -38,10 +40,15 @@ class SegmentTree {
         // Copy the input array into the leaf nodes of the segment tree
         if (originalArrayLength >= 0)
             System.arraycopy(inputArray, 0, segmentTreeArray, originalArrayLength, originalArrayLength);
+
         // Build the segment tree by calculating the parent nodes
         for (int i = originalArrayLength - 1; i > 0; i--) {
             segmentTreeArray[i] = segmentTreeArray[2 * i] + segmentTreeArray[2 * i + 1];
         }
+
+        // The index 0 is unused (left as 0), and the actual tree structure starts from index 1.
+        // segmentTreeArray[1] gives the sum of the entire array.
+        System.out.println("segmentTreeArray : " + Arrays.toString(segmentTreeArray));
     }
 
     /**
@@ -55,7 +62,7 @@ class SegmentTree {
 
         // Propagate the change up the tree
         while (index > 1) {
-            index /= 2;
+            index /= 2; // Parent Index
             segmentTreeArray[index] = segmentTreeArray[2 * index] + segmentTreeArray[2 * index + 1];
         }
     }
@@ -66,25 +73,25 @@ class SegmentTree {
      * If left is a right child, it is included in the sum, and we move to its sibling’s parent.
      * Similarly, if right is a left child, it is included in the sum, and we move to its sibling’s parent.
      */
-    public int queryRangeSum(int left, int right) {
-        left += originalArrayLength;  // Adjust to the segment tree index
-        right += originalArrayLength; // Adjust to the segment tree index
+    public int queryRangeSum(int from, int to) {
+        from += originalArrayLength;  // Adjust to the segment tree index
+        to += originalArrayLength; // Adjust to the segment tree index
 
         int sum = 0;
-        while (left <= right) {
-            // If left is a right child, include its value and move to the next segment
-            if ((left % 2) == 1) {
-                sum += segmentTreeArray[left];
-                left++;
+        while (from <= to) {
+            // If 'from' is a right child, include its value and move to the next segment
+            if ((from % 2) == 1) {
+                sum += segmentTreeArray[from];
+                from++;
             }
-            // If right is a left child, include its value and move to the previous segment
-            if ((right % 2) == 0) {
-                sum += segmentTreeArray[right];
-                right--;
+            // If 'to' is a left child, include its value and move to the previous segment
+            if ((to % 2) == 0) {
+                sum += segmentTreeArray[to];
+                to--;
             }
             // Move up to the parents
-            left /= 2;
-            right /= 2;
+            from /= 2;
+            to /= 2;
         }
         return sum;
     }
