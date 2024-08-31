@@ -37,65 +37,91 @@ public class CompressedTrie {
      * and nodes with partial matches are split, preserving the efficiency of the Trie.
      */
     void insert(String word) {
-        TrieNode node = root;  // Start from the root of the Trie
-        int i = 0;  // Index for the current character in the word
+        TrieNode node = root;
+        int i = 0;
 
-        while (i < word.length()) {  // Continue until we've processed the entire word
-            char currentChar = word.charAt(i);  // Get the current character
+        // Traverse through the word to insert it into the Trie
+        while (i < word.length()) {
+            char currentChar = word.charAt(i);
 
-            // Check if there's already a node that starts with the current character
+            // If the current character matches a child node
             if (node.children.containsKey(currentChar)) {
-                TrieNode child = node.children.get(currentChar);  // Get the child node
-                String childPart = child.part;  // Get the string part stored in this child node
+                TrieNode child = node.children.get(currentChar);
 
-                // Find the common prefix between the current part of the word and the child's part
-                int j = 0;
-                while (j < childPart.length() && i < word.length() && word.charAt(i) == childPart.charAt(j)) {
-                    i++;  // Move forward in the word
-                    j++;  // Move forward in the child part
-                }
+                // Find the length of the common prefix between the word and the current node's part
+                int commonPrefixLength = findCommonPrefixLength(word, i, child.part);
 
-                // If the entire child's part is a common prefix, move deeper in the Trie
-                if (j == childPart.length()) {
-                    node = child;  // Move down to the child node
+                // If the entire part of the child matches, move deeper in the Trie
+                if (commonPrefixLength == child.part.length()) {
+                    node = child;
+                    i += commonPrefixLength;  // Move forward in the word
                     continue;  // Continue processing the remaining part of the word
                 }
 
-                // Otherwise, we need to split the node
-                String commonPrefix = childPart.substring(0, j);  // Part that is common
-                String remainingChildPart = childPart.substring(j);  // Part that is unique to the child
-                String remainingWordPart = word.substring(i);  // Part that is unique to the word
-
-                // Create a new node for the remaining part of the child's string
-                TrieNode newChild = new TrieNode(remainingChildPart);
-                newChild.children.putAll(child.children);  // Transfer children to the new node
-                newChild.isEndOfWord = child.isEndOfWord;  // Copy the end-of-word flag
-
-                // Update the child node to only contain the common prefix
-                child.part = commonPrefix;
-                child.children.clear();  // Clear existing children
-                child.children.put(remainingChildPart.charAt(0), newChild);  // Add the new node as a child
-                child.isEndOfWord = false;  // This node is no longer the end of a word
-
-                // If there's any remaining part in the word, add it as a new child
-                if (remainingWordPart.length() > 0) {
-                    TrieNode newWordNode = new TrieNode(remainingWordPart);
-                    newWordNode.isEndOfWord = true;
-                    child.children.put(remainingWordPart.charAt(0), newWordNode);
-                } else {
-                    // If the entire word matched the common prefix, mark this node as the end of the word
-                    child.isEndOfWord = true;
-                }
-                return;  // We're done inserting
+                // If there's a partial match, split the node and insert the remaining word part
+                splitNode(node, child, commonPrefixLength, word.substring(i + commonPrefixLength));
+                return;  // Insertion is complete
             } else {
-                // No match found, create a new node with the rest of the word
-                TrieNode newNode = new TrieNode(word.substring(i));
-                newNode.isEndOfWord = true;  // Mark the new node as the end of a word
-                node.children.put(currentChar, newNode);  // Add the new node as a child of the current node
+                // No matching child node, add the remaining part of the word as a new node
+                addNewNode(node, word.substring(i));
                 return;  // Insertion is complete
             }
         }
-        node.isEndOfWord = true;  // Mark the node as the end of the word
+        // Mark the node as the end of the word
+        node.isEndOfWord = true;
+    }
+
+    /**
+     * Finds the length of the common prefix between the word being inserted
+     * and the part stored in the child node.
+     */
+    private int findCommonPrefixLength(String word, int startIndex, String childPart) {
+        int j = 0;
+        // Compare characters until they differ or one string ends
+        while (j < childPart.length() && startIndex + j < word.length() && word.charAt(startIndex + j) == childPart.charAt(j)) {
+            j++;
+        }
+        return j;
+    }
+
+    /**
+     * Splits the child node into two parts based on the common prefix length.
+     * Inserts the remaining part of the word as a new node if necessary.
+     */
+    private void splitNode(TrieNode parent, TrieNode child, int commonPrefixLength, String remainingWordPart) {
+        // Extract the common prefix and the unique parts
+        String commonPrefix = child.part.substring(0, commonPrefixLength);
+        String remainingChildPart = child.part.substring(commonPrefixLength);
+
+        // Create a new node for the remaining part of the child's string
+        TrieNode newChild = new TrieNode(remainingChildPart);
+        newChild.children.putAll(child.children);  // Transfer children to the new node
+        newChild.isEndOfWord = child.isEndOfWord;  // Copy the end-of-word flag
+
+        // Update the child node to only contain the common prefix
+        child.part = commonPrefix;
+        child.children.clear();  // Clear existing children
+        child.children.put(remainingChildPart.charAt(0), newChild);  // Add the new node as a child
+        child.isEndOfWord = false;  // This node is no longer the end of a word
+
+        // If there's any remaining part in the word, add it as a new child node
+        if (!remainingWordPart.isEmpty()) {
+            TrieNode newWordNode = new TrieNode(remainingWordPart);
+            newWordNode.isEndOfWord = true;
+            child.children.put(remainingWordPart.charAt(0), newWordNode);
+        } else {
+            // If the entire word matched the common prefix, mark this node as the end of the word
+            child.isEndOfWord = true;
+        }
+    }
+
+    /**
+     * Adds a new node for the remaining part of the word when no matching child exists.
+     */
+    private void addNewNode(TrieNode node, String remainingWordPart) {
+        TrieNode newNode = new TrieNode(remainingWordPart);
+        newNode.isEndOfWord = true;  // Mark the new node as the end of the word
+        node.children.put(remainingWordPart.charAt(0), newNode);  // Add the new node as a child of the current node
     }
 
     /**
@@ -117,7 +143,9 @@ public class CompressedTrie {
 
     public static void main(String[] args) {
         CompressedTrie trie = new CompressedTrie();
+
         trie.insert("flower");
+        trie.insert("flowering");
         trie.insert("flow");
         trie.insert("flight");
 
