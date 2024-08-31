@@ -32,9 +32,10 @@ public class RadixTrieInterface {
         current.isEndOfWord = true;
     }
 
-    /*
-     * The time complexity of searching for a word in the trie is O(L).
-     * Space complexity is O(1)
+    /**
+     * Searches word
+     * @Time-Complexity The time complexity of searching for a word in the trie is O(L).
+     * @Space-Complexity Space complexity is O(1)
      */
     public boolean search(String word){
         RadixTrieInterface current = this;
@@ -48,11 +49,11 @@ public class RadixTrieInterface {
         return current.isEndOfWord;
     }
 
-    /*
+    /**
      * Checks if any word in the trie starts with the given prefix.
      *
-     * The time complexity of searching for a prefix in the trie is O(P).
-     * Space complexity is O(1)
+     * @Time-Complexity The time complexity of searching for a prefix in the trie is O(P).
+     * @Space-Complexity Space complexity is O(1)
      */
     public boolean startsWith(String prefix){
         RadixTrieInterface current = this;
@@ -66,15 +67,15 @@ public class RadixTrieInterface {
         return true;
     }
 
-    /*
+    /**
      *  This method is used to explore all words in the trie that start with a given prefix.
      *  It prints out or processes all words that have the given prefix, typically
      *  using Depth-First Search (DFS) to explore the subtree of the prefix node.
      *
-     *  In the worst case, DFS will visit all nodes in the subtree,
+     *  @Time-Complexity In the worst case, DFS will visit all nodes in the subtree,
      *  making the time complexity O(N), where N is the total number of nodes in the subtree.
      *
-     *  The space complexity of DFS is determined by the recursion stack. In the worst case,
+     *  @Space-Complexity The space complexity of DFS is determined by the recursion stack. In the worst case,
      *  if the trie is skewed, the stack could be as deep as the length of the word (or prefix),
      *  so the space complexity is O(P + D), where D is the maximum depth of the trie.
      */
@@ -103,18 +104,18 @@ public class RadixTrieInterface {
         }
     }
 
-    /*
-        Time Complexity
-        1. **`countChildren(current)`**:
+    /**
+        @Time-Complexity
+        1. countChildren(current):
            This method iterates over all possible children of a node.
            Its time complexity is O(SIZE), where SIZE is 26.
            Since SIZE is constant, this is effectively O(1).
 
-        2. **`while` Loop**:
+        2. while Loop:
            The loop continues as long as the current node is not an end of a word and has exactly one child.
            The number of iterations is determined by the length of the longest common prefix.
 
-        3. **`for` Loop**:
+        3. for Loop:
            The `for` loop iterates through the child nodes of the current node.
            Since SIZE is constant, this is effectively O(1).
 
@@ -125,13 +126,13 @@ public class RadixTrieInterface {
 
         So, the overall time complexity of the `longestCommonPrefix` method is O(L)
 
-        Space Complexity
+        @Space-Complexity
         - The space complexity is primarily determined by the space used by the `StringBuilder` `lcp`,
           which grows with the length of the longest common prefix. Hence, the space complexity is O(L)
 
         In summary:
-        - **Time Complexity**: O(L)
-        - **Space Complexity**: O(L)
+        -Time Complexity: O(L)
+        -Space Complexity: O(L)
     */
     public void longestCommonPrefix() {
         StringBuilder lcp = new StringBuilder();
