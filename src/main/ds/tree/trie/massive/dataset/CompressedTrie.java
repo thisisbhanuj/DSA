@@ -59,7 +59,7 @@ public class CompressedTrie {
                 }
 
                 // If there's a partial match, split the node and insert the remaining word part
-                splitNode(node, child, commonPrefixLength, word.substring(i + commonPrefixLength));
+                splitNode(child, commonPrefixLength, word.substring(i + commonPrefixLength));
                 return;  // Insertion is complete
             } else {
                 // No matching child node, add the remaining part of the word as a new node
@@ -88,7 +88,7 @@ public class CompressedTrie {
      * Splits the child node into two parts based on the common prefix length.
      * Inserts the remaining part of the word as a new node if necessary.
      */
-    private void splitNode(TrieNode parent, TrieNode child, int commonPrefixLength, String remainingWordPart) {
+    private void splitNode(TrieNode child, int commonPrefixLength, String remainingWordPart) {
         // Extract the common prefix and the unique parts
         String commonPrefix = child.part.substring(0, commonPrefixLength);
         String remainingChildPart = child.part.substring(commonPrefixLength);
