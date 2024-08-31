@@ -20,7 +20,7 @@ public class TrieWrapper {
     }
 
     public void depthFirstSearch(String word) {
-        root.depthFirstSearch(root, word);
+        root.depthFirstSearch(word);
     }
 
     public static void main(String[] args) {

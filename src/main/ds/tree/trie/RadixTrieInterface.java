@@ -8,40 +8,39 @@ deletion, and searching of strings. Non-compact tries are commonly used in text 
 spell checkers, keyword matching and other applications where efficient string matching and retrieval are important.
 */
 public class RadixTrieInterface {
-    private int SIZE = 26;
+    private static final int SIZE = 26;
     private RadixTrieInterface[] children;
-    //private Map<Character, RadixTrieInterface> children;
     private boolean isEndOfWord;
 
-    RadixTrieInterface() {
-        children = new RadixTrieInterface[this.SIZE];
+    public RadixTrieInterface() {
+        children = new RadixTrieInterface[SIZE];
         isEndOfWord = false;
     }
 
     /*
-    * The time & space complexity of inserting a word into the trie is O(L)
-    */
+     * The time & space complexity of inserting a word into the trie is O(L)
+     */
     public void insert(String word){
         RadixTrieInterface current = this;
         for(char character : word.toCharArray()){
             int index = character - 'a';
-            /*current.children.putIfAbsent(character, new RadixTrieInterface());
-            current = current.children.get(character);*/
-            if (current.children[index] == null) current.children[index] = new RadixTrieInterface();
+            if (current.children[index] == null) {
+                current.children[index] = new RadixTrieInterface();
+            }
             current = current.children[index];
         }
         current.isEndOfWord = true;
     }
 
     /*
-    * The time complexity of searching for a prefix in the trie is O(L).
-    * Space complexity is O(1)
-    */
+     * The time complexity of searching for a word in the trie is O(L).
+     * Space complexity is O(1)
+     */
     public boolean search(String word){
         RadixTrieInterface current = this;
         for(char character : word.toCharArray()) {
             int index = character - 'a';
-            if (current.children[index] == null) { // !current.children.containsKey(character)
+            if (current.children[index] == null) {
                 return false;
             }
             current = current.children[index];
@@ -50,57 +49,46 @@ public class RadixTrieInterface {
     }
 
     /*
-     * The time complexity of searching for a word in the trie is O(P).
+     * The time complexity of searching for a prefix in the trie is O(P).
      * Space complexity is O(1)
      */
     public boolean startsWith(String prefix){
         RadixTrieInterface current = this;
-        if(prefix != null) {
-            for (char character : prefix.toCharArray()) {
-                int index = character - 'a';
-                if (current.children[index] == null){ // !current.children.containsKey(character)
-                    return false;
-                }
-                current = current.children[index];
+        for (char character : prefix.toCharArray()) {
+            int index = character - 'a';
+            if (current.children[index] == null) {
+                return false;
             }
-            return true;
+            current = current.children[index];
         }
-        return false;
+        return true;
     }
 
     /*
-    *  The time complexity of performing a depth-first search (DFS) in the trie is O(N)
-    *  The space complexity is O(P), where P is the length of the prefix
-    */
-    public void depthFirstSearch(RadixTrieInterface node, String prefix) {
+     *  The time complexity of performing a depth-first search (DFS) in the trie is O(N)
+     *  The space complexity is O(P), where P is the length of the prefix
+     */
+    public void depthFirstSearch(String prefix) {
+        RadixTrieInterface node = this;
         for (char character : prefix.toCharArray()) {
             int index = character - 'a';
             if (node.children[index] == null) {
-                return;
+                return; // No words found with this prefix
             }
             node = node.children[index];
         }
-        // Start DFS from the node corresponding to the last character of the prefix
         depthFirstSearchHelper(node, prefix);
     }
 
-    public void depthFirstSearchHelper(RadixTrieInterface node, String word) {
+    private void depthFirstSearchHelper(RadixTrieInterface node, String word) {
         if (node.isEndOfWord) {
             System.out.println(word);
-            return;
         }
 
-        /*for (char c = 'a'; c <= 'z'; c++) {
-            int index = c - 'a';
-            if (node.children[index] != null) {
-                depthFirstSearchHelper(node.children[index], word + c);
-            }
-        }*/
-
-        for (int i = 0; i < node.children.length; i++) {
+        for (int i = 0; i < SIZE; i++) {
             if (node.children[i] != null) {
-                char c = (char) ('a' + i);
-                depthFirstSearchHelper(node.children[i], word + c);
+                char nextChar = (char) ('a' + i);
+                depthFirstSearchHelper(node.children[i], word + nextChar);
             }
         }
     }
