@@ -48,6 +48,8 @@ public class LeastCommonPrefix {
         }
     }
 
+    // A Trie (prefix tree) stores strings in such a way that common prefixes are shared among the strings.
+    // Each node represents a character, and the path from the root to any node forms a prefix of one or more strings.
     class Trie {
         private TrieNode root;
 
