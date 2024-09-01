@@ -41,23 +41,23 @@ public class LongestCommonSubstring {
     }
 
     // Find a common substring of exact length
-    private static String findCommonSubstringOfLength(String[] strings, int length) {
-        if (length == 0) return "";
+    private static String findCommonSubstringOfLength(String[] strings, int subStringLength) {
+        if (subStringLength == 0) return "";
 
         Set<String> substrings = new HashSet<>();
         String firstString = strings[0];
 
         // Collect all substrings of the given length from the first string
-        for (int i = 0; i <= firstString.length() - length; i++) {
-            substrings.add(firstString.substring(i, i + length));
+        for (int i = 0; i <= firstString.length() - subStringLength; i++) {
+            substrings.add(firstString.substring(i, i + subStringLength));
         }
 
         // Check if any of these substrings are present in all other strings
         for (int i = 1; i < strings.length; i++) {
             Set<String> currentSubstrings = new HashSet<>();
             String str = strings[i];
-            for (int j = 0; j <= str.length() - length; j++) {
-                String substring = str.substring(j, j + length);
+            for (int j = 0; j <= str.length() - subStringLength; j++) {
+                String substring = str.substring(j, j + subStringLength);
                 if (substrings.contains(substring)) {
                     currentSubstrings.add(substring);
                 }
