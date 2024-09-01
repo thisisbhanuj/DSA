@@ -1,7 +1,6 @@
 package main.ds.leetcode.medium.common_substring;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * It efficiently finds the longest common substring across multiple strings by leveraging binary search and set-based substring checks.
@@ -10,18 +9,19 @@ import java.util.Set;
  * @Space-Complexity : O(N * M) for storing substrings.
  */
 public class LongestCommonSubstring {
+
     // Binary search to find the maximum length of common substring
-    public static String longestCommonSubstring(String[] strings) {
+    public static String lcf(String[] source) {
         int low = 0;
-        int high = minLength(strings);
+        int high = minimumPossiblePrefix(source);
         String result = "";
 
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            String commonSubstring = findCommonSubstringOfLength(strings, mid);
 
-            if (commonSubstring != null) {
-                result = commonSubstring;
+            String output = longestCommonPrefix(source, mid);
+            if (output != null) {
+                result = output;
                 low = mid + 1;  // Try for a longer substring
             } else {
                 high = mid - 1;  // Try for a shorter substring
@@ -31,87 +31,61 @@ public class LongestCommonSubstring {
         return result;
     }
 
-    // Find the minimum length among the strings
-    private static int minLength(String[] strings) {
-        int min = Integer.MAX_VALUE;
-        for (String s : strings) {
-            min = Math.min(min, s.length());
-        }
-        return min;
-    }
+    // Function to find the common substring of a specific length
+    static String longestCommonPrefix(String[] source, int subStringLength) {
+        if (source.length == 0 || subStringLength == 0) return null;
 
-    // Find a common substring of exact length
-    private static String findCommonSubstringOfLength(String[] strings, int subStringLength) {
-        if (subStringLength == 0) return "";
-
-        Set<String> substrings = new HashSet<>();
-        String firstString = strings[0];
+        String firstString = source[0];
+        HashSet<String> commonSubstrings = new HashSet<>();
 
         // Collect all substrings of the given length from the first string
-        for (int i = 0; i <= firstString.length() - subStringLength; i++) {
-            substrings.add(firstString.substring(i, i + subStringLength));
+        for (int index = 0; index <= firstString.length() - subStringLength; index++) {
+            commonSubstrings.add(firstString.substring(index, index + subStringLength));
         }
 
-        // Check if any of these substrings are present in all other strings
-        for (int i = 1; i < strings.length; i++) {
-            Set<String> currentSubstrings = new HashSet<>();
-            String str = strings[i];
-            for (int j = 0; j <= str.length() - subStringLength; j++) {
-                String substring = str.substring(j, j + subStringLength);
-                if (substrings.contains(substring)) {
-                    currentSubstrings.add(substring);
+        // Iterate over the rest of the strings
+        for (int pos = 1; pos < source.length; pos++) {
+            String data = source[pos];
+            HashSet<String> currentSet = new HashSet<>();
+
+            for (int index = 0; index <= data.length() - subStringLength; index++) {
+                String subString = data.substring(index, index + subStringLength);
+                if (commonSubstrings.contains(subString)) {
+                    currentSet.add(subString);
                 }
             }
-            substrings = currentSubstrings;
-            if (substrings.isEmpty()) return null;
+
+            // Update the set of common substrings to include only those found in this string
+            commonSubstrings = currentSet;
+
+            // If at any point there are no common substrings of this length, return null
+            if (commonSubstrings.isEmpty()) {
+                return null;
+            }
         }
 
-        return substrings.isEmpty() ? null : substrings.iterator().next();
+        // Return any of the common substrings
+        return commonSubstrings.iterator().next();
     }
 
-    /*
-        The binary search with substring hashing approach is efficient for many practical cases,
-        but there are other methods worth considering depending on the context and constraints.
+    // Function to find the minimum length of strings in the array
+    static int minimumPossiblePrefix(String[] source) {
+        if (source.length == 0) return 0;
 
-        ### 1. Suffix Tree/Array
+        int lowest = source[0].length();
+        for (String eachString : source) {
+            int lengthOfString = eachString.length();
+            if (lengthOfString < lowest) {
+                lowest = lengthOfString;
+            }
+        }
+        return lowest;
+    }
 
-        Suffix Tree:
-        - Build a generalized suffix tree for all strings.
-        - Traverse the tree to find the longest substring present in all strings.
-        - Time Complexity: `O(N * M)` where `N` is the number of strings and `M` is the total length of all strings combined.
-        - Space Complexity: `O(N * M)`.
-
-        Suffix Array:
-        - Construct a suffix array for a concatenated string with delimiters.
-        - Use a longest common prefix (LCP) array to find the longest common substring.
-        - Time Complexity: `O(N * M * log(N * M))`.
-        - Space Complexity: `O(N * M)`.
-
-        ### 2. Rabin-Karp Rolling Hash
-  
-        - Use rolling hash to efficiently compute hash values for substrings of length `L`.
-        - Check if a common hash value exists across all strings.
-        - Time Complexity: `O(N * M * log M)` depending on hash collision handling.
-        - Space Complexity: `O(N * M)`.
-
-        ### 3. Dynamic Programming
-
-        - Construct a dynamic programming table to find the longest common substring.
-        - This is less efficient for large numbers of strings due to its high time complexity.
-        - Time Complexity: `O(N * M^2)`.
-        - Space Complexity: `O(M^2)`.
-
-        ### Efficiency Summary:
-        - Binary Search with Hashing: Generally efficient and practical for moderate-sized problems.
-        - Suffix Tree/Array: Very efficient for larger datasets but complex to implement.
-        - Rolling Hash: Efficient but requires careful handling of hash collisions.
-        - Dynamic Programming: Simpler but not suitable for large datasets.
-
-        For most practical purposes and moderate-sized inputs, the binary search with substring hashing method strikes a good balance between simplicity and efficiency.
-        For very large datasets, suffix trees or suffix arrays might offer better performance if you can handle their complexity.
-     */
     public static void main(String[] args) {
-        String[] strings = {"abcdefgh", "cdefghijkl", "efghijklmn"};
-        System.out.println("Longest Common Substring: " + longestCommonSubstring(strings));
+        String[] strings = {"abcdef", "zzzabcdefijh", "abc"};
+        String response = lcf(strings);
+
+        System.out.println(response); // Expected output: "abc"
     }
 }
