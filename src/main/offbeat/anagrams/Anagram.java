@@ -1,4 +1,4 @@
-package main.offbeat.dash.anagrams;
+package main.offbeat.anagrams;
 
 import java.util.Arrays;
 
