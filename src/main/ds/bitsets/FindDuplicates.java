@@ -1,29 +1,57 @@
 package main.ds.bitsets;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.OptionalInt;
+import java.util.*;
 
 public class FindDuplicates {
-    public static void main(String[] args){
-        int[] array = {1, 2, 3, 4, 5, 6, 7, 1, 8};
-        boolean result = findDuplicates(array);
-        System.out.println("Is Duplicate found? : " + result);
-    }
-
-  static boolean findDuplicates(int[] array){
-        OptionalInt optMax = Arrays.stream(array).max();
-        if (optMax.isEmpty()) return false;
-
-        BitSet bitSet = new BitSet(optMax.getAsInt() + 1);
-
-        for (int value: array){
-            if (bitSet.get(value)) return  true;
-            bitSet.set(value);
+        public static void main(String[] args){
+            int[] array = {1, 2, 3, 4, 5, 6, 7, 1, 8};
+            boolean result = findDuplicates(array);
+            System.out.println("Is Duplicate found? : " + result);
         }
 
-        return false;
-  }
+      static boolean findDuplicates(int[] array){
+            OptionalInt optMax = Arrays.stream(array).max();
+            if (optMax.isEmpty()) return false;
+
+            BitSet bitSet = new BitSet(optMax.getAsInt() + 1);
+
+            for (int value: array){
+                if (bitSet.get(value)) return  true;
+                bitSet.set(value);
+            }
+
+            return false;
+      }
+
+    public boolean hybridSolution(int[] nums) {
+        if (nums.length <= 1) return false;
+
+        // Find min and max
+        int min = Arrays.stream(nums).min().getAsInt();
+        int max = Arrays.stream(nums).max().getAsInt();
+
+        // Decide approach: BitSet if range is small enough
+        long range = (long) max - (long) min + 1;
+
+        if (range <= 1_000_000_0L) { // adjust threshold as needed
+            // Use BitSet for dense, bounded range
+            BitSet bitSet = new BitSet((int) range);
+            for (int num : nums) {
+                int shifted = num - min;
+                if (bitSet.get(shifted)) return true;
+                bitSet.set(shifted);
+            }
+            return false;
+        } else {
+            // Use HashSet for huge/sparse ranges
+            Set<Integer> seen = new HashSet<>();
+            for (int num : nums) {
+                if (seen.contains(num)) return true;
+                seen.add(num);
+            }
+            return false;
+        }
+    }
 }
 
 /*

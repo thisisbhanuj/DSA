@@ -37,6 +37,10 @@ package main.ds.bitsets;
  * - Shows understanding of memory-efficient data structures and trade-offs.
  * - Can extend to Bloom Filters for probabilistic membership checks on even larger scales.
  * - Useful in real-world scenarios like ad tech, fraud detection and analytics pipelines.
+ *
+ * BitSet → perfect for bounded, dense, non-negative ranges (like [0, 1_000_000]).
+ * HashSet → safe for unbounded ranges or negative numbers.
+ * Always check input constraints before deciding memory-optimized data structure.
  */
 
 import java.util.BitSet;
