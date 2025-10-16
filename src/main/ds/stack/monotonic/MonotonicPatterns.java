@@ -1,7 +1,8 @@
 package main.ds.stack.monotonic;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Stack;
+import java.util.Deque;
 
 /*
     🔥 Core Intuition — “Next Greater / Smaller Element”
@@ -18,7 +19,7 @@ import java.util.Stack;
  */
 public class MonotonicPatterns {
     public int[] nextGreaterToRight(int[] arr){
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         int[] results = new int[arr.length];
 
         for(int i = arr.length - 1; i >= 0; i--){
@@ -34,7 +35,7 @@ public class MonotonicPatterns {
     }
 
     public int[] nextGreaterToLeft(int[] arr) {
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         int[] results = new int[arr.length];
 
         for(int i = 0; i < arr.length; i++){
@@ -51,7 +52,7 @@ public class MonotonicPatterns {
 
     public int[] nextSmallerToRight(int[] arr){
         int[] results = new int[arr.length];
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
 
         for(int i = arr.length - 1; i >= 0; i--){
             // Pop larger elements
@@ -67,7 +68,7 @@ public class MonotonicPatterns {
 
     public int[] nextSmallerToLeft(int[] arr) {
         int[] results = new int[arr.length];
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
 
         for(int i = 0; i < arr.length; i++){
             // Pop larger elements
