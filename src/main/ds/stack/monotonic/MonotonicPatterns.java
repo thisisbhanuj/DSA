@@ -55,7 +55,7 @@ public class MonotonicPatterns {
 
         for(int i = arr.length - 1; i >= 0; i--){
             // Pop larger elements
-            while(!stack.isEmpty() && arr[stack.peek()] > arr[i]){
+            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i]){
                 stack.pop();
             }
             results[i] = stack.isEmpty() ? -1 : arr[stack.peek()];
@@ -71,7 +71,7 @@ public class MonotonicPatterns {
 
         for(int i = 0; i < arr.length; i++){
             // Pop larger elements
-            while(!stack.isEmpty() && arr[stack.peek()] > arr[i]){
+            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i]){
                 stack.pop();
             }
             results[i] = stack.isEmpty() ? -1 : arr[stack.peek()];
