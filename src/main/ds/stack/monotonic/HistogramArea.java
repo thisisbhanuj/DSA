@@ -141,7 +141,7 @@ public class HistogramArea {
      */
     private static int histogramArea_v2(int[] heights) {
         int n = heights.length;
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         int maxArea = 0;
 
         for (int i = 0; i <= n; i++) {
