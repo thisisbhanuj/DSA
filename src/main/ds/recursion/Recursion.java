@@ -16,9 +16,9 @@ public class Recursion {
         System.out.println("Reversed Again : " + Arrays.toString(array));
 
         // Palindrome
-        String palindrome = "AABBBAA";
-        int end = palindrome.length();
-        System.out.println(palindrome(palindrome, 0, end));
+        String string = "AABBBAA";
+        int end = string.length();
+        System.out.println(palindrome(string, 0, end));
     }
 
     private static int[] reverseTwoPointerArray(int[] arr, int start, int end) {
@@ -51,9 +51,5 @@ public class Recursion {
         } else {
             return false;
         }
-    }
-
-    private static void generateSubSet() {
-
     }
 }

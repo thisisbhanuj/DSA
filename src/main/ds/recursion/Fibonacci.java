@@ -36,7 +36,8 @@ public class Fibonacci {
     }
 
     // Top-Down Approach (Memoization)
-    // In the Top-Down Approach (Memoization) for Fibonacci, you solve the problem recursively and use a cache to store results of subproblems as you compute them. This avoids redundant calculations by retrieving already computed values from the cache instead of recomputing them.
+    // In the Top-Down Approach (Memoization) for Fibonacci, you solve the problem recursively and use a cache to store results of subproblems as you compute them.
+    // This avoids redundant calculations by retrieving already computed values from the cache instead of recomputing them.
     //
     // Reduces time complexity to O(n) by avoiding redundant calculations. Each Fibonacci number is computed once and stored.
     // Requires additional space for the cache, which is O(n), where n is the number of Fibonacci numbers calculated.
