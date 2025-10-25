@@ -3,37 +3,37 @@ package main.ds.search;
 public class RotatedSortedSearch {
 
     public static int search(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
+        int start = 0, end = nums.length - 1;
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
 
             // ✅ 1. Direct hit
             if (nums[mid] == target) return mid;
 
             // ✅ 2. Check which half is sorted
-            if (nums[left] <= nums[mid]) {
-                // 👉 Left half [left..mid] is sorted
+            if (nums[start] <= nums[mid]) {
+                // 👉 Left half [start..mid] is sorted
 
                 // Is target inside this sorted range?
-                if (target >= nums[left] && target < nums[mid]) {
-                    // Yes → discard right half
-                    right = mid - 1;
+                if (target >= nums[start] && target < nums[mid]) {
+                    // Yes → discard end half
+                    end = mid - 1;
                 } else {
                     // No → target must be in pivoted (unsorted) half
-                    left = mid + 1;
+                    start = mid + 1;
                 }
 
             } else {
-                // 👉 Right half [mid..right] is sorted
+                // 👉 Right half [mid..end] is sorted
 
                 // Is target inside this sorted range?
-                if (target > nums[mid] && target <= nums[right]) {
-                    // Yes → discard left half
-                    left = mid + 1;
+                if (target > nums[mid] && target <= nums[end]) {
+                    // Yes → discard start half
+                    start = mid + 1;
                 } else {
                     // No → target must be in pivoted (unsorted) half
-                    right = mid - 1;
+                    end = mid - 1;
                 }
             }
         }
