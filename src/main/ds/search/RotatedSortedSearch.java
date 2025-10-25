@@ -42,11 +42,66 @@ public class RotatedSortedSearch {
         return -1;
     }
 
+    /**
+     * Finds the smallest element in a rotated sorted array.
+     *
+     * @param data Rotated sorted array
+     * @return Index of the smallest element
+     */
+    private static int globalMinimum(int[] data) {
+        int start = 0, end = data.length - 1;
+
+        // Binary search locates the smallest element → the “rotation point”.
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            // Compare mid with the rightmost element
+            if (data[mid] > data[end]) {
+                // Pivot must be to the right of mid
+                start = mid + 1;
+            } else {
+                // Pivot is at mid or to the left
+                end = mid;
+            }
+        }
+        return start;
+    }
+
+    /**
+     * Finds the pivot (maximum element) in a rotated sorted array.
+     *
+     * @param data Rotated sorted array
+     * @return Index of the pivot element
+     */
+    private static int globalMaximum(int[] data) {
+        int start = 0, end = data.length - 1;
+
+        // Binary search locates the smallest element → the “rotation point”.
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            // Compare mid with the rightmost element
+            if (data[mid] > data[end]) {
+                // Pivot must be to the right of mid
+                start = mid + 1;
+            } else {
+                // Pivot is at mid or to the left
+                end = mid;
+            }
+        }
+        // Pivot (maximum) is one element left of the smallest element.
+        // Ensures circular wrap-around, so we never get a negative index.
+        // So now it works even if the array is not rotated.
+        return (start - 1 + data.length) % data.length;
+    }
+
     public static void main(String[] args) {
         int[] arr = {7, 8, 9, 3, 4, 5, 6};
         int target = 6;
         int index = search(arr, target);
         System.out.println("Index of " + target + ": " + index);
+        System.out.println("Global Minimum : " + arr[globalMinimum(arr)]);
+        System.out.println("Global Maximum : " + arr[globalMaximum(arr)]);
     }
 }
 
