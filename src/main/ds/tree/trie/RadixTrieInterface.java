@@ -9,7 +9,7 @@ package main.ds.tree.trie;
 */
 public class RadixTrieInterface {
     private static final int SIZE = 26;
-    private RadixTrieInterface[] children;
+    private final RadixTrieInterface[] children;
     private boolean isEndOfWord;
 
     public RadixTrieInterface() {
@@ -124,7 +124,7 @@ public class RadixTrieInterface {
         - If the longest common prefix has a length `L`, then the loop will run O(L) times.
         - Inside the `while` loop, the `for` loop runs in constant time, O(1), since SIZE is constant.
 
-        So, the overall time complexity of the `longestCommonPrefix` method is O(L)
+        So, the overall time complexity of the `lcpByTrie` method is O(L)
 
         @Space-Complexity
         - The space complexity is primarily determined by the space used by the `StringBuilder` `lcp`,
