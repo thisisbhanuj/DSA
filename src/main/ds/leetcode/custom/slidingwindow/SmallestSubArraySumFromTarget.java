@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SmallestSubArraySum
+ * SmallestSubArraySumFromTarget
  *
  * <p>
  * This class demonstrates the Sliding Window pattern to solve the problem of finding the
@@ -42,7 +42,7 @@ import java.util.List;
  * This is the essence of the Sliding Window pattern.
  * </p>
  */
-public class SmallestSubArraySum {
+public class SmallestSubArraySumFromTarget {
     public static void main(String[] args) {
         int[] weights = {1, 2, 3, 1, 6, 7, 8, 4, 5};
         int target = 5;

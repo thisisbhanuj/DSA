@@ -3,7 +3,7 @@ package main.ds.leetcode.custom.slidingwindow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllSubArraysSum {
+public class AllSubArraysSumFromTarget {
     public static void main(String[] args) {
         int[] weights = {1, 2, 3, 1, 6, 7, 8, 4, 5};
         int target = 5;
