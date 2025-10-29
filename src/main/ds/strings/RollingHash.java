@@ -92,13 +92,17 @@ public class RollingHash {
         System.out.println("Initial windowHash = " + windowHash);
 
         for (int i = 0; i <= n - m; i++) {
+            // substring: O(m) comparison plus O(m) memory allocation for each window.
             final String substring = text.substring(i, i + m);
             System.out.println("\nWindow [" + i + "," + (i + m - 1) + "] = '" + substring + "'");
             System.out.println("Current windowHash = " + windowHash);
 
             if (windowHash == patternHash) {
                 System.out.println("Hash match! Checking substring equality...");
-                if (substring.equals(pattern)) {
+                // In Rabin–Karp, you slide over possibly thousands of windows.
+                // Using substring() repeatedly means allocating thousands of short strings → GC pressure and cache churn.
+                // regionMatches() reads directly from the same char[] — no allocations.
+                if (text.regionMatches(i, pattern, 0, m)){
                     System.out.println("Substring matches at index " + i);
                 } else {
                     System.out.println("False positive due to hash collision.");
