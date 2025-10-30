@@ -29,6 +29,7 @@ public class Floyds {
 
     /*
     * To find the node from where a cycle begins in a linked list,
+    *
     * you can use Floyd's cycle-finding algorithm,
     * also known as the "tortoise and hare" algorithm.
     */
@@ -114,7 +115,7 @@ public class Floyds {
         //   slow does not "stay" at 4 after reaching there (from above sequence)
         //   Instead, it keeps moving along the list one step at a time, just like fast.
         //   Both pointers move simultaneously until they converge at the start of the cycle.
-        //   Rememeber, L = nC - x
+        //   Remember, L = nC - x
         // *****************************************************************************
         slow = head;
         while (slow != fast) {
