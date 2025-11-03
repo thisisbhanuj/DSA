@@ -34,10 +34,8 @@ Another diagonal:
 
 → all have `r - c = 1`
 
-So, the key invariant is:
-[
-r - c = \text{constant}
-]
+So, the key invariant is: r - c = \text{constant}
+
 That’s what defines one "" diagonal.
 
 But `r - c` can be **negative**:
@@ -45,23 +43,13 @@ But `r - c` can be **negative**:
 * top-right diagonals have `r - c < 0`
 * bottom-left diagonals have `r - c > 0`
 
-Range of `r - c`:
-[
--(n-1) \leq r - c \leq n-1
-]
+Range of `r - c`: -(n-1) <= r - c <= n-1
 
 That’s **2n - 1 possible diagonals**.
 
-We can’t use negative indices in arrays, so we **shift** it by adding ( n - 1 ):
+We can’t use negative indices in arrays, so we **shift** it by adding ( n - 1 ): {index} = (r - c) + (n - 1)
 
-[
-\text{index} = (r - c) + (n - 1)
-]
-
-Hence:
-[
-\boxed{\text{diag1}[r - c + n - 1]}
-]
+Hence: {diag1}[r - c + n - 1]}
 
 ---
 
@@ -77,21 +65,12 @@ Example (4×4):
 
 → all have `r + c = 3`
 
-So the invariant:
-[
-r + c = \text{constant}
-]
+So the invariant: r + c = {constant}
 
-Range of `r + c`:
-[
-0 \leq r + c \leq 2n - 2
-]
+Range of `r + c`: 0 <= r + c <= 2n - 2
 (again, 2n − 1 diagonals total)
 
-We can directly use that as an array index:
-[
-\boxed{\text{diag2}[r + c]}
-]
+We can directly use that as an array index: {diag2}[r + c]}
 
 ---
 
@@ -101,7 +80,7 @@ We can directly use that as an array index:
 
     * "" → ( r - c = k )
     * "/" → ( r + c = k )
-* The offset ( n-1 ) is just a normalization to map all possible values to nonnegative indices.
+* The offset ( n-1 ) is just a normalization to map all possible values to non negative indices.
 
 ---
 

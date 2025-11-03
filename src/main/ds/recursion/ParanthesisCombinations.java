@@ -26,7 +26,7 @@ import java.util.List;
     4. Do I need to backtrack?
     → if you’re exploring multiple branches.
 
-        🧭 Why We “Undo” Things
+    🧭 Why We “Undo” Things
     ************************
     ❓Why do we undo the choice after recursion?
 
