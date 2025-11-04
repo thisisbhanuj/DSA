@@ -34,6 +34,7 @@ class BrowserTab {
         }
     }
 
+    // Cloning is a deep copy → every clone physically duplicates URLs
     BrowserTab cloneUpTo(int n) {
         // n = number of steps from oldest to clone
         BrowserTab newTab = new BrowserTab(current);
@@ -47,13 +48,16 @@ class BrowserTab {
         newTab.forwardStack = new ArrayDeque<>(forwardStack); // copy forward stack
         return newTab;
     }
-
-    String getCurrent() {
-        return current;
-    }
 }
 
 public class BranchedBrowserNavigation {
+    static void getTotalUrlsInMemory(List<BrowserTab> tabs) {
+        int total = 0;
+        for (BrowserTab tab : tabs)
+            total += tab.backStack.size() + tab.forwardStack.size() + 1; // current
+        System.out.println("Total URLS: " + total);
+    }
+
     public static void main(String[] args) {
         List<BrowserTab> tabs = new ArrayList<>();
         BrowserTab tab1 = new BrowserTab("home.com");
@@ -71,8 +75,6 @@ public class BranchedBrowserNavigation {
         tab1.back();
         tab2.forward(); // testing independent stacks
 
-        for (int i = 0; i < tabs.size(); i++) {
-            System.out.println("Tab " + (i + 1) + " current URL: " + tabs.get(i).getCurrent());
-        }
+        getTotalUrlsInMemory(tabs);
     }
 }
