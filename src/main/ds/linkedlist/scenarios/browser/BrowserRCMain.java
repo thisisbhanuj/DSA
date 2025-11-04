@@ -1,5 +1,32 @@
 package main.ds.linkedlist.scenarios.browser;
 
+/*
+    ✅ Reasoning and Interview Points
+    ----------------------------------------------------------------------
+    Persistent History
+        - Each navigation creates a new immutable node.
+        - Allows safe sharing between tabs (O(1) clone).
+
+    Reference Counting
+        - Each PageNodeRC tracks how many tabs/nodes point to it.
+        - Guarantees nodes are only freed when no one references them.
+
+    Safe Memory Reclamation
+        - visit/back/forward/cloneTab carefully increment/decrement counts.
+        - Tab closure releases nodes recursively.
+        - No shared history is ever deleted prematurely.
+
+    Clone Efficiency
+        - Cloning is O(1) time and memory.
+        - Only increases reference counts; underlying nodes are shared.
+
+    Interview Talking Points
+        A. Trade-offs: slight overhead for refCount but memory safety.
+        B. Copy-on-write ensures minimal duplication.
+        C. Works well even for millions of tabs and histories.
+    ----------------------------------------------------------------------
+*/
+
 /**
  * Immutable PageNode with reference counting.
  * This simulates memory-safe browser history nodes.
