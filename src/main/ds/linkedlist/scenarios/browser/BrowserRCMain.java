@@ -1,7 +1,7 @@
 package main.ds.linkedlist.scenarios.browser;
 
-/*
-    ✅ Reasoning and Interview Points
+/*  ----------------------------------------------------------------------
+    ✅ Reasoning
     ----------------------------------------------------------------------
     Persistent History
         - Each navigation creates a new immutable node.
@@ -19,11 +19,26 @@ package main.ds.linkedlist.scenarios.browser;
     Clone Efficiency
         - Cloning is O(1) time and memory.
         - Only increases reference counts; underlying nodes are shared.
+   ----------------------------------------------------------------------
+    ✅ Interview Points
+   ----------------------------------------------------------------------
+        Q - “Does moving back/forward repeatedly create many nodes?” OR
+            “Do movements within the same tab create new nodes?”
+        A - “Yes, each movement creates a new top node for the back or forward stack,
+             but the underlying shared history is reused. Memory grows proportional to
+             the number of operations, not the total number of URLs in the original history.
+             This is the trade-off for persistent immutable stacks.”
 
-    Interview Talking Points
+        Q -  “Why not reuse nodes?”
+        A -  “Reusing nodes would break the persistent structure principle.
+              Forward/back moves can split history, and if multiple tabs share nodes,
+              mutations could propagate incorrectly. Creating new nodes ensures O(1) clone,
+              safe sharing and memory correctness.”
+
         A. Trade-offs: slight overhead for refCount but memory safety.
         B. Copy-on-write ensures minimal duplication.
         C. Works well even for millions of tabs and histories.
+
     ----------------------------------------------------------------------
 */
 
