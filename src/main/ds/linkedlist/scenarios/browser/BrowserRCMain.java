@@ -42,10 +42,6 @@ final class PageNodeRC {
         }
     }
 
-    int getRefCount() {
-        return refCount;
-    }
-
     @Override
     public String toString() {
         return url + "(" + refCount + ")";
