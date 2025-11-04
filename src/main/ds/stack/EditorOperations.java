@@ -30,7 +30,8 @@ public class EditorOperations {
 
     public static void main(String[] args) {
         String[] ops = {"+a", "+b", "+c", "-", "u", "+d", "u", "r", "r"};
-        System.out.println(finalExpression(ops)); // Expected: "abcd"
+        System.out.println("finalExpression_v1 => " + finalExpression(ops)); // Expected: "abcd"
+        System.out.println("finalExpression_v2 => " + finalExpression_v2(ops)); // Expected: "abcd"
     }
 
     public static String finalExpression(String[] ops) {
@@ -52,30 +53,68 @@ public class EditorOperations {
                     undoStack.push(new Operation('-', removed));
                     redoStack.clear(); // new edit → clear redo
                 }
-            } else if (op.equals("u")) { // undo
-                if (!undoStack.isEmpty()) {
-                    Operation last = undoStack.pop();
-                    if (last.type == '+') {
-                        sb.deleteCharAt(sb.length() - 1);
-                        redoStack.push(new Operation('+', last.value));
-                    } else if (last.type == '-') {
-                        sb.append(last.value);
-                        redoStack.push(new Operation('-', last.value));
-                    }
+            } else if (op.equals("u") && !undoStack.isEmpty()) { // undo
+                Operation last = undoStack.pop();
+                if (last.type == '+') {
+                    sb.deleteCharAt(sb.length() - 1);
+                    redoStack.push(new Operation('+', last.value));
+                } else if (last.type == '-') {
+                    sb.append(last.value);
+                    redoStack.push(new Operation('-', last.value));
                 }
-            } else if (op.equals("r")) { // redo
-                if (!redoStack.isEmpty()) {
-                    Operation redoOp = redoStack.pop();
-                    if (redoOp.type == '+') {
-                        sb.append(redoOp.value);
-                        undoStack.push(new Operation('+', redoOp.value));
-                    } else if (redoOp.type == '-') {
-                        sb.deleteCharAt(sb.length() - 1);
-                        undoStack.push(new Operation('-', redoOp.value));
-                    }
+            } else if (op.equals("r") && !redoStack.isEmpty()) { // redo
+                Operation redoOp = redoStack.pop();
+                if (redoOp.type == '+') {
+                    sb.append(redoOp.value);
+                    undoStack.push(new Operation('+', redoOp.value));
+                } else if (redoOp.type == '-') {
+                    sb.deleteCharAt(sb.length() - 1);
+                    undoStack.push(new Operation('-', redoOp.value));
                 }
             }
         }
+        return sb.toString();
+    }
+
+    public static String finalExpression_v2(String[] ops){
+        StringBuilder sb = new StringBuilder();
+        Deque<String> undo = new ArrayDeque<>();
+        Deque<String> redo = new ArrayDeque<>();
+
+        for(String input: ops){
+            if(input.charAt(0) == '+'){
+                sb.append(input.charAt(1));
+                undo.push(input);
+                redo.clear();
+            } else if(input.equals("-")){
+                String removed = undo.pop();
+                sb.deleteCharAt(sb.length() - 1);
+                if(removed.charAt(0) == '+'){
+                    undo.push(("-" + removed.charAt(1)));
+                } else {
+                    undo.push(removed);
+                }
+            } else if (input.equals("u") && !undo.isEmpty()) {
+                String undone = undo.pop();
+                if(undone.charAt(0) == '-'){
+                    sb.append(undone.charAt(1));
+                    redo.push(("-" + undone.charAt(1)));
+                } else if(undone.charAt(0) == '+'){
+                    sb.deleteCharAt(sb.length() - 1);
+                    redo.push(("+" + undone.charAt(1)));
+                }
+            } else if (input.equals("r") && !redo.isEmpty()) {
+                String redone = redo.pop();
+                if(redone.charAt(0) == '+'){
+                    sb.append(redone.charAt(1));
+                    undo.push(("-" + redone.charAt(1)));
+                } else {
+                    sb.deleteCharAt(sb.length() - 1);
+                    undo.push(("+" + redone.charAt(1)));
+                }
+            }
+        }
+
         return sb.toString();
     }
 }
