@@ -71,8 +71,8 @@ public class RollingHash {
     private static final int MOD = 1_000_000_007;
 
     public static void main(String[] args) {
-        String text = "ababc";
-        String pattern = "ab";
+        String text = "ababdabc";
+        String pattern = "abd";
 
         int n = text.length();
         int m = pattern.length();
@@ -84,7 +84,7 @@ public class RollingHash {
 
         // compute initial hashes
         for (int i = 0; i < m; i++) {
-            patternHash = (patternHash * BASE + (text.charAt(i) - 'a' + 1)) % MOD; // pattern hash using text for demo
+            patternHash = (patternHash * BASE + (pattern.charAt(i) - 'a' + 1)) % MOD;
             windowHash = (windowHash * BASE + (text.charAt(i) - 'a' + 1)) % MOD;
         }
 
