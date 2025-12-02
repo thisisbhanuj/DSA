@@ -3,7 +3,6 @@ package main.ds.stack.monotonic;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.Stack;
 
 /**
  * <h2>Largest Rectangle in Histogram — Monotonic Stack Techniques</h2>
@@ -141,27 +140,40 @@ public class HistogramArea {
      */
     private static int histogramArea_v2(int[] heights) {
         int n = heights.length;
-        Deque<Integer> stack = new ArrayDeque<>();
+        Deque<Integer> stack = new ArrayDeque<>(); // Stack stores indices of bars with strictly increasing heights.
         int maxArea = 0;
 
-        for (int i = 0; i <= n; i++) {
-            int currentHeight = (i == n) ? 0 : heights[i];
-
+        for (int i = 0; i <= n; i++) { // You walk one step past the array so everything remaining in the stack gets flushed.
+            int currentHeight = (i == n) ? 0 : heights[i]; // Sentinel height = 0 makes sure the stack empties at the end.
+            // When a new bar is lower, the previous taller bars “end” here,
+            // so compute their maximal rectangle with this bar as the right boundary.
             while (!stack.isEmpty() && currentHeight < heights[stack.peek()]) {
-                int height = heights[stack.pop()];
-                int rightBoundary = i;
-                int leftBoundary = stack.isEmpty() ? -1 : stack.peek();
-                int width = rightBoundary - leftBoundary - 1;
+                int height = heights[stack.pop()]; // This popped bar is the “middle bar” whose rectangle you're computing.
+                int rightBoundary = i; // The bar at i is the first bar to the right strictly shorter, so the maximal right edge is i - 1.
+                int leftBoundary = stack.isEmpty() ? -1 : stack.peek(); // After popping, the new top is the nearest smaller bar to the left.
+                /** leftBoundary and rightBoundary are blocking bars, not part of the rectangle. **/
+                int width = (rightBoundary - 1) - (leftBoundary + 1) + 1; // Width spans between the nearest smaller bars on both sides.
                 maxArea = Math.max(maxArea, height * width);
             }
-            stack.push(i);
+            stack.push(i); // Maintain a strictly increasing-stack of heights.
         }
         return maxArea;
+
+        /*
+         Top 3 conceptual interpretations
+         1. “Stretch until blocked”
+            Each bar stretches left and right until you hit something shorter.
+         2. “Monotonic boundary discovery”
+            Each bar’s max rectangle occurs exactly when we see a shorter bar.
+         3. “Delayed computation”
+            You don’t compute an area when pushing a bar; you wait until you know its right boundary.
+         */
     }
 
     public static void main(String[] args) {
-        int[] heights = {2, 1, 5, 6, 2, 3};
-        System.out.println("Max Area using v1: " + histogramArea_v1(heights)); // ✅ Expected: 10
-        System.out.println("Max Area using v2: " + histogramArea_v2(heights)); // ✅ Expected: 10
+        int[] heights = {2, 1, 5, 6, 2, 3, 1, 1, 1, 10, 100};
+        System.out.println("Heights -> " + Arrays.toString(heights));
+        System.out.println("Max Area using v1: " + histogramArea_v1(heights)); // ✅ Expected: 100
+        System.out.println("Max Area using v2: " + histogramArea_v2(heights)); // ✅ Expected: 100
     }
 }
