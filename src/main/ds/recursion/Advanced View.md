@@ -84,7 +84,7 @@ Root node = the *initial state*
 Branches = *available choices*
 Leaf nodes = *base cases* (no further decisions possible)
 
-So, nderstanding that:
+So, understanding that:
 
 > “Root should be initialized first, and branches are the #choices causing input reduction”
 > is 💯 correct.
@@ -109,12 +109,12 @@ If you write these five down, the recursive structure almost *writes itself*.
 
 ### 🧠 6. Summary
 
-| Concept             | Beginner’s View        | Advanced (Your) View                        |
-| ------------------- | ---------------------- | ------------------------------------------- |
-| What recursion does | Reduces input size     | Explores decision space                     |
-| Structure           | Linear chain           | Branching tree                              |
-| Key focus           | Base + smaller input   | State + choices                             |
-| Input reduction     | Goal                   | Side effect                                 |
+| Concept             | Beginner’s View        | Advanced View                        |
+| ------------------- | ---------------------- | ------------------------------------ |
+| What recursion does | Reduces input size     | Explores decision space              |
+| Structure           | Linear chain           | Branching tree                       |
+| Key focus           | Base + smaller input   | State + choices                      |
+| Input reduction     | Goal                   | Side effect                          |
 | Helps with          | Simple math recursions | Combinatorial / backtracking / DFS problems |
 
 ---

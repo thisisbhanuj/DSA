@@ -18,7 +18,6 @@ import java.util.*;
  *
  * <p>⚙️ Optimized for stream processing — ideal when files cannot fit entirely in memory.
  *
- * @author Weiyi Zhi
  */
 public class StreamingFileDuplicateDetector {
 

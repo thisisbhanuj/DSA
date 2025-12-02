@@ -6,7 +6,7 @@ import java.util.List;
 
 /*
     RECURSION is a product of { Decision Space + Choices }, as primary aspects.
-    Reduction of inputs is secondary and the side-effect of the process, hence
+    Reduction of inputs is secondary and the side effect of the process, hence
     the focus should be on the primary things. RECURSIVE TREE is created by
     Input - Output process, where ROOT should be initialized first,
     and the Branches are the # of Choices causing reduction of input space.

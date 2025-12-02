@@ -3,14 +3,15 @@ package main.offbeat.atlassian.rollinghash;
 import java.io.*;
 import java.util.*;
 // ------------------------------------------------------------------------------------------
-// 🧩 Question:
-//      “How would you detect duplicate files efficiently?”
+// 🧩 Question: How would you detect duplicate files efficiently?
 // ------------------------------------------------------------------------------------------
-//🎯 Answer (Battle-Mode Style)
-//  I’d use a rolling-hash–based approach inspired by Rabin-Karp.
-//  - Each file is processed as a byte stream. Instead of hashing the entire file, I slide a fixed-size window (say 4 KB) and compute a rolling hash per chunk. The key advantage is that each new hash can be updated in O(1) time — subtract the outgoing byte, add the incoming one — so the overall runtime is linear, O(N).
-//  - I store these chunk hashes in a map from hash → chunk → file paths. That lets me detect shared chunks across files without reading everything into memory.
-//  - To prevent false positives, I verify actual bytes when two hashes match — either a direct string compare or a secondary strong hash like SHA-256.
+// 🎯 Answer
+//  Use a rolling-hash–based approach inspired by Rabin-Karp.
+//  - Each file is processed as a byte stream.
+//    Instead of hashing the entire file, slide a fixed-size window (say 4 KB) and compute a rolling hash per chunk.
+//    The key advantage is that each new hash can be updated in O(1) time — subtract the outgoing byte, add the incoming one — so the overall runtime is linear, O(N).
+//  - Store these chunk hashes in a map from hash → chunk → file paths. That lets me detect shared chunks across files without reading everything into memory.
+//  - To prevent false positives, verify actual bytes when two hashes match — either a direct string compare or a secondary strong hash like SHA-256.
 //  - Space usage scales with the number of unique chunks, roughly O(N / K).
 //  - The same logic applies to streaming data — as bytes arrive, the rolling window continuously updates hashes.
 //    It’s exactly how Dropbox or Git deduplication layers operate.
