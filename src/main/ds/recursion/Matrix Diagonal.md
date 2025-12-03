@@ -4,14 +4,14 @@
 
 ### 💡 Problem setup
 
-We have a ( n \times n ) grid.
-Each cell is identified by coordinates ( (r, c) ), where ( r, c \in [0, n-1] ).
+We have a ( n x n ) grid.
+Each cell is identified by coordinates ( (r, c) ), where ( r, c in [0, n-1] ).
 
 You want to uniquely identify each **diagonal** — the sets of cells that lie on the same diagonal — with a single number.
 
 ---
 
-### 1️⃣ Left Diagonals (↙ / “\” shaped)
+### 1️⃣ Left Diagonals (“\” shaped)
 
 These are diagonals where **row – column is constant**.
 
@@ -34,7 +34,7 @@ Another diagonal:
 
 → all have `r - c = 1`
 
-So, the key invariant is: r - c = \text{constant}
+So, the key invariant is: r - c = {constant}
 
 That’s what defines one "" diagonal.
 
@@ -53,7 +53,7 @@ Hence: {diag1}[r - c + n - 1]}
 
 ---
 
-### 2️⃣ Right Diagonals (↘ / “/” shaped)
+### 2️⃣ Right Diagonals (“/” shaped)
 
 These are diagonals where **row + column is constant**.
 
@@ -78,9 +78,9 @@ We can directly use that as an array index: {diag2}[r + c]}
 
 * Each diagonal is a **level set** (a set of points having the same value) of a linear equation:
 
-    * "" → ( r - c = k )
+    * "\\" → ( r - c = k )
     * "/" → ( r + c = k )
-* The offset ( n-1 ) is just a normalization to map all possible values to non negative indices.
+* The offset ( n-1 ) is just a normalization to map all possible values to non-negative indices.
 
 ---
 
