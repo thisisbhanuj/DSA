@@ -36,17 +36,51 @@ public class ReverseLinkedList {
         return prev;
     }
 
-
     /* Below functionality to cover LINKED LIST REVERSAL IN K-th GROUPS */
 
-    /*
-    * The time complexity of the algorithm is O(n/k) because it iterates through the linked list n/k times.
-    * For each iteration, it reverses a group of k nodes, which takes O(k) time.
-    * Therefore, the total time complexity of the algorithm is O(n/k) + O(k) = O(n/k).
-    *
-    * The space complexity of the algorithm is O(n/k).
-    */
+    /**
+     * Reverses the linked list in fixed-size groups of {@code groupOf} nodes.
+     *
+     * <p>This pattern appears frequently in real-world systems where data is processed
+     * in discrete blocks rather than as a continuous stream. Typical applications include:
+     *
+     * <ul>
+     *   <li><b>Network and cryptographic pipelines</b> — transforming or re-encrypting
+     *       packets in fixed-size windows (e.g., 16- or 32-byte blocks).</li>
+     *
+     *   <li><b>Batch-oriented data processing</b> — reshaping or reversing chunks of
+     *       records before forwarding them to a downstream consumer that operates
+     *       strictly on block units.</li>
+     *
+     *   <li><b>Message-queue and middleware systems</b> — reordering messages within
+     *       bounded batches to support LIFO-like consumption semantics or specialized
+     *       dispatch patterns.</li>
+     *
+     *   <li><b>Chunk-based file and stream transformations</b> — performing block-level
+     *       operations during compression, decompression, or streaming transforms
+     *       where each block is treated independently.</li>
+     *
+     *   <li><b>Low-level and embedded workloads</b> — reversing or rearranging bounded
+     *       segments of samples, pixels, or sensor data in DSP pipelines or drivers.</li>
+     * </ul>
+     *
+     * <p>The algorithm performs an in-place reversal of each group, then recursively
+     * processes the remaining list, stitching the reversed segments together. This
+     * avoids additional memory allocation while maintaining predictable block
+     * boundaries—critical in systems that enforce strict batching constraints.
+     *
+     * @param head    the head of the linked list
+     * @param groupOf the size of each reversal group
+     * @return the new head of the list after group-wise reversal
+     */
     public static SingleLinkedListNode reverseKGroupUsingRecursion(SingleLinkedListNode head, int groupOf) {
+        /*
+         * The time complexity of the algorithm is O(n/k) because it iterates through the linked list n/k times.
+         * For each iteration, it reverses a group of k nodes, which takes O(k) time.
+         * Therefore, the total time complexity of the algorithm is O(n/k) + O(k) = O(n/k).
+         *
+         * The space complexity of the algorithm is O(n/k).
+         */
         SingleLinkedListNode current = head;
         SingleLinkedListNode prev = null;
         SingleLinkedListNode next = null;
@@ -72,15 +106,50 @@ public class ReverseLinkedList {
         return prev;
     }
 
-    /*
-     * The time complexity of the algorithm is O(n/k) because it iterates through the linked list n/k times.
-     * For each iteration, it reverses a group of k nodes, which takes O(k) time.
-     * Therefore, the total time complexity of the algorithm is O(n/k) + O(k) = O(n/k).
+    /**
+     * Reverses the linked list in fixed-size groups of {@code groupOf} nodes.
      *
-     * The space complexity of the algorithm is O(1).
-     * This is because the algorithm only uses a constant amount of space to store the pointers prev and current.
+     * <p>This pattern appears frequently in real-world systems where data is processed
+     * in discrete blocks rather than as a continuous stream. Typical applications include:
+     *
+     * <ul>
+     *   <li><b>Network and cryptographic pipelines</b> — transforming or re-encrypting
+     *       packets in fixed-size windows (e.g., 16- or 32-byte blocks).</li>
+     *
+     *   <li><b>Batch-oriented data processing</b> — reshaping or reversing chunks of
+     *       records before forwarding them to a downstream consumer that operates
+     *       strictly on block units.</li>
+     *
+     *   <li><b>Message-queue and middleware systems</b> — reordering messages within
+     *       bounded batches to support LIFO-like consumption semantics or specialized
+     *       dispatch patterns.</li>
+     *
+     *   <li><b>Chunk-based file and stream transformations</b> — performing block-level
+     *       operations during compression, decompression, or streaming transforms
+     *       where each block is treated independently.</li>
+     *
+     *   <li><b>Low-level and embedded workloads</b> — reversing or rearranging bounded
+     *       segments of samples, pixels, or sensor data in DSP pipelines or drivers.</li>
+     * </ul>
+     *
+     * <p>The algorithm performs an in-place reversal of each group, then recursively
+     * processes the remaining list, stitching the reversed segments together. This
+     * avoids additional memory allocation while maintaining predictable block
+     * boundaries—critical in systems that enforce strict batching constraints.
+     *
+     * @param head    the head of the linked list
+     * @param k the size of each reversal group
+     * @return the new head of the list after group-wise reversal
      */
     public static SingleLinkedListNode reverseLinkedListInKGroups(SingleLinkedListNode head, int k) {
+        /*
+         * The time complexity of the algorithm is O(n/k) because it iterates through the linked list n/k times.
+         * For each iteration, it reverses a group of k nodes, which takes O(k) time.
+         * Therefore, the total time complexity of the algorithm is O(n/k) + O(k) = O(n/k).
+         *
+         * The space complexity of the algorithm is O(1).
+         * This is because the algorithm only uses a constant amount of space to store the pointers prev and current.
+         */
         if (k <= 1) {
             return head;
         }
