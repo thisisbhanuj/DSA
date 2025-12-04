@@ -3,6 +3,18 @@ package main.ds.linkedlist;
 import java.util.ArrayList;
 
 public class HashMapUsingLinkedList<K, V> {
+    private static class LinkedListNode<K, V> {
+        K key;
+        V value;
+        LinkedListNode<K, V> next;
+
+        LinkedListNode(K key, V value) {
+            this.key = key;
+            this.value = value;
+            this.next = null;
+        }
+    }
+
     private final ArrayList<LinkedListNode<K, V>> store;
     private final int capacity;
 
@@ -90,18 +102,6 @@ public class HashMapUsingLinkedList<K, V> {
     public void clear() {
         for (int i = 0; i < capacity; i++) {
             store.set(i, null);
-        }
-    }
-
-    private static class LinkedListNode<K, V> {
-        K key;
-        V value;
-        LinkedListNode<K, V> next;
-
-        LinkedListNode(K key, V value) {
-            this.key = key;
-            this.value = value;
-            this.next = null;
         }
     }
 

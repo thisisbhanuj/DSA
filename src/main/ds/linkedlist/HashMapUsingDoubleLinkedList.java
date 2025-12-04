@@ -3,6 +3,20 @@ package main.ds.linkedlist;
 import java.util.ArrayList;
 
 public class HashMapUsingDoubleLinkedList<K, V> {
+    private static class DoublyLinkedListNode<K, V> {
+        K key;
+        V value;
+        DoublyLinkedListNode<K, V> prev;
+        DoublyLinkedListNode<K, V> next;
+
+        DoublyLinkedListNode(K key, V value) {
+            this.key = key;
+            this.value = value;
+            this.prev = null;
+            this.next = null;
+        }
+    }
+
     private final ArrayList<DoublyLinkedListNode<K, V>> store;
 
     private final int capacity;
@@ -45,7 +59,6 @@ public class HashMapUsingDoubleLinkedList<K, V> {
             }
         }
     }
-
 
     public V get(K key) {
         int index = generateHashedIndex(key);
@@ -118,20 +131,6 @@ public class HashMapUsingDoubleLinkedList<K, V> {
                 head = next;
             }
             store.set(i, null);
-        }
-    }
-
-    private static class DoublyLinkedListNode<K, V> {
-        K key;
-        V value;
-        DoublyLinkedListNode<K, V> prev;
-        DoublyLinkedListNode<K, V> next;
-
-        DoublyLinkedListNode(K key, V value) {
-            this.key = key;
-            this.value = value;
-            this.prev = null;
-            this.next = null;
         }
     }
 

@@ -1,29 +1,67 @@
 package main.ds.linkedlist;
 
 public class RemoveNode {
+    public static SingleLinkedListNode removeNodeIterative(SingleLinkedListNode start, int value) {
+        SingleLinkedListNode dummy = new SingleLinkedListNode(0);
+        dummy.next = start;
+        var curr = dummy;
+        while (curr.next != null) {
+            if (curr.next.val == value) curr.next = curr.next.next;
+            else curr = curr.next;
+        }
+        return dummy.next;
+    }
 
-    public static SingleLinkedListNode removeNode(SingleLinkedListNode start, int value) {
+    /*
+        Post-order recursion
+     */
+    public static SingleLinkedListNode removeNodeByRecursion_v1(SingleLinkedListNode start, int value) {
         // Base case: If the list is empty, return null
         if (start == null) return null;
-
         // This ensures that the entire list is processed before checking whether to remove the current node.
         // Every node’s next pointer is updated with the result of the recursive call,
         // ensuring that any matching nodes further down the list are removed first, and then the current node is checked.
-        start.next = removeNode(start.next, value);
-
+        // -------------------------------------------------------------------------------------------------------
+        // Why recursion comes before update: Because you must first know what the next node becomes after removal.
+        // Only then can you correctly set start.next.
+        // -------------------------------------------------------------------------------------------------------
+        start.next = removeNodeByRecursion_v1(start.next, value);
         // If the current node's value matches, skip this node
         if (start.val == value) {
             return start.next;
         }
-
         // Otherwise, return the current node
         return start;
     }
 
+    /*
+        Pre-order recursion (decide then recurse)
+        This works correctly as long as you immediately return upon deletion. The logic is equivalent to v1 because:
+        -   When the node must be deleted, you return the cleaned tail directly.
+        -   When the node is kept, you clean the tail then reattach it.
+     */
+    public static SingleLinkedListNode removeNodeByRecursion_v2(SingleLinkedListNode start, int value) {
+        // Base case: If the list is empty, return null
+        if (start == null) return null;
+        if (start.val == value) {
+            return removeNodeByRecursion_v2(start.next, value);
+        }
+        start.next = removeNodeByRecursion_v2(start.next, value);
+        return start;
+    }
+
     public static void main(String[] args) {
-        SingleLinkedListNode head = SingleLinkedListNode.sampleLinkedList();
-        head = removeNode(head, 2);
-        SingleLinkedListNode.printList(head);
+        SingleLinkedListNode head1 = SingleLinkedListNode.sampleLinkedList();
+        head1 = removeNodeIterative(head1, 2);
+        SingleLinkedListNode.printList(head1);
+
+        SingleLinkedListNode head2 = SingleLinkedListNode.sampleLinkedList();
+        head2 = removeNodeByRecursion_v1(head2, 2);
+        SingleLinkedListNode.printList(head2);
+
+        SingleLinkedListNode head3 = SingleLinkedListNode.sampleLinkedList();
+        head3 = removeNodeByRecursion_v2(head3, 2);
+        SingleLinkedListNode.printList(head3);
     }
 }
 
