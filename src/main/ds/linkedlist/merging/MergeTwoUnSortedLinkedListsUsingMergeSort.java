@@ -89,7 +89,8 @@ public class MergeTwoUnSortedLinkedListsUsingMergeSort {
         SingleLinkedListNode middle = getMiddle(head);
         SingleLinkedListNode nextOfMiddle = middle.next;
         middle.next = null;
-
+        // Passing head into mergeSort for the left half is correct because after
+        // you cut middle.next = null, head now represents the entire left sublist.
         SingleLinkedListNode left = mergeSort(head);
         SingleLinkedListNode right = mergeSort(nextOfMiddle);
 
