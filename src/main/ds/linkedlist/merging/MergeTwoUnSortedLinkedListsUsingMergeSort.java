@@ -112,7 +112,7 @@ public class MergeTwoUnSortedLinkedListsUsingMergeSort {
         return slow;
     }
 
-    public static SingleLinkedListNode mergeSortedList(SingleLinkedListNode head1, SingleLinkedListNode head2) {
+    public static SingleLinkedListNode mergeUnSortedList(SingleLinkedListNode head1, SingleLinkedListNode head2) {
         if (head1 == null && head2 == null) return null;
         if (head1 == null) return head2;
         if (head2 == null) return head1;
@@ -140,7 +140,7 @@ public class MergeTwoUnSortedLinkedListsUsingMergeSort {
         node22.next = node32;
 
         if (head11 != null && head22 != null) {
-            SingleLinkedListNode mergedList = mergeSortedList(head11, head22);
+            SingleLinkedListNode mergedList = mergeUnSortedList(head11, head22);
 
             System.out.println("Sorted Merged List: ");
             SingleLinkedListNode.printList(mergedList);
